@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h1 class="uk-text-center uk-margin-medium uk-margin-medium-top">Products</h1>
+
+<div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+    {% for product in products %}
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <h2><a href="{% url 'product' product.id %}">{{ product.name }}</a></h2>
+                <p>{{ product.description }}</p>
+                <p>Category</p>
+                {% for category in product.category.all %}
+                    <span>{{category}}</span>
+                {% endfor %}
+                <p>Available Quantity: {{ product.quantity }}</p>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% endif %}
+                {% if request.user.is_authenticated and request.user.userprofile.owner.id == request.user.userprofile.id %}
+                <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
+                <a class="uk-link" href="{% url 'product' product.id %}">View</a>
+                <a class="uk-link" href="{% url 'delete-product' product.id %}">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+

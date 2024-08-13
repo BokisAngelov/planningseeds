@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="uk-container">
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="">
+                <label class="">{{ field.label }}</label>
+                {{field}}
+            </div>
+        {% endfor %}
+        <button type="submit" class="uk-button uk-button-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

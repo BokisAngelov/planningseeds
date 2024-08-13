@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+
+{% for profile in profiles %}
+<div>
+    <div class="uk-card uk-card-default uk-card-body">
+        <h2><a href="{% url 'user-profile' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a></h2>
+        <img src="{{profile.profile_image.url}}" alt="{{profile.first_name}}" style="max-width: 150px; max-height: 150px;" />
+    </div>
+</div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+{% if page == 'register' %}
+
+<div class="auth">
+    <div class="uk-card">
+      <div class="auth__header uk-text-center">
+        <h3>Account SignUp</h3>
+      </div>
+
+      <form method="POST" action="{% url 'register' %}" class="uk-form auth__form">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form__field uk-field">
+                <label for="formInput#text">{{field.label}}</label>
+                {{field}}
+
+                {% if field.help_text %}
+                    <small>{{field.help_text}}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+
+        <div class="auth__actions">
+          <input class="uk-button uk-button-primary" type="submit" value="Sign Up" />
+        </div>
+      </form>
+      <div class="auth__alternative">
+        <p>Already have an Account?</p>
+        <a class="uk-button uk-button-primary" href="{% url 'login' %}">Log In</a>
+      </div>
+    </div>
+  </div>
+
+{% else %}
+<div class="auth">
+
+    <div class="card">
+
+      <div class="auth__header uk-text-center">
+        <h3>Account Login</h3>
+      </div>
+
+      <form action="{% url 'login' %}" method="POST" class="form auth__form">
+        {% csrf_token %}
+        <!-- Input:Username -->
+        <div class="form__field">
+          <label for="formInput#text">Username: </label>
+          <input class="uk-input" id="formInput#text" type="text" name="username"
+            placeholder="Enter your username..." />
+        </div>
+
+        <!-- Input:Password -->
+        <div class="form__field">
+          <label for="formInput#password">Password: </label>
+          <input class="uk-input" id="formInput#passowrd" type="password" name="password"
+            placeholder="••••••••" />
+        </div>
+        <div class="auth__actions">
+          <input class="uk-button uk-button-primary" type="submit" value="Log In" />
+          <a href="forgetpassword.html">Forget Password?</a>
+        </div>
+      </form>
+
+      <div class="auth__alternative">
+        <p>Don’t have an Account?</p>
+        <a class="uk-button uk-button-primary" href="{% url 'register' %}">Sign Up</a>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock content %}

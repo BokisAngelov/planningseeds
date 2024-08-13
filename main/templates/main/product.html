@@ -1,0 +1,99 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>{{productObj.name}}</h1>
+<hr>
+{% for category in productObj.category.all %}
+    <span>{{category}}</span>
+{% endfor %}
+<hr>
+<p>Owner: <a href="{% url 'user-profile' productObj.producer.id %}">{{productObj.producer.first_name}} {{productObj.producer.last_name}}</a></p>
+<p>{{productObj.description}}</p>
+
+{% if request.user.userprofile.user_type == 'customer' %}
+<a class="uk-button uk-button-primary" href="{% url 'request-offer' productObj.id %}">Request an offer</a>
+{% endif %}
+
+<!-- For owner -->
+{% if request.user.userprofile == productObj.producer and requestsTo %}
+<h2>Requests</h2>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            
+        </tr>
+    </thead>
+    <tbody>  
+    {% for request in requestsTo %}
+        <tr>
+            <td>{{request.created}}</td>
+            <td><a href="{% url 'user-profile' request.user.id %}">{{ request.user }}</a></td>
+            <td>{{ request.quantity }}</td>
+            <td>{{ request.status }}</td>
+            <td></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if request.user.userprofile == productObj.producer and offers %}
+<h2>Offers</h2>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+            
+        </tr>
+    </thead>
+    <tbody>  
+    {% for offer in offers %}
+        <tr>
+            <td>{{offer.created}}</td>
+            <td><a href="{% url 'user-profile' offer.request.user.id %}">{{offer.request.user}}</a></td>
+            <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+            <td>{{ offer.quantity }}</td>
+            <td>{{offer.unit_price}}</td>
+            <td>{{ offer.total_price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<!-- For customer -->
+{% if requestsFrom %}
+<h2>My Requests</h2>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            
+        </tr>
+    </thead>
+    <tbody>  
+    {% for request in requestsFrom %}
+        <tr>
+            <td> {{ request.created }}</td>
+            <td>{{ request.quantity }}</td>
+            <td>{{ request.status }}</td>
+            <td></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock %} 

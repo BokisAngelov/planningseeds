@@ -1,0 +1,436 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>{{ user.first_name }}</h1>
+<p>{{ user.address }}</p>
+<p>{{ user.company_name }}</p>
+{% if user.profile_image %}
+    <img src="{{user.profile_image.url}}" style="max-width: 150px;" />
+{% endif %}
+{% if is_owner %}
+<div>
+    <a class="uk-button uk-button-secondary" href="{% url 'edit-user' %}">Edit profile</a>
+</div>
+{% endif %}
+{% if products %}
+<h2>Available Products</h2>
+<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+    {% for product in products %}
+    <div>
+        <div class="uk-card uk-card-default uk-card-body">
+    <h1><a href="{% url 'product' product.id %}">{{product.name}}</a></h1>
+    <p>{{product.description}}</p>
+        {% for category in product.category.all %}
+            <span>{{category}}</span>
+            </div>
+        </div>
+        {% endfor %}
+
+    {% endfor %}
+</div>
+
+{% endif %}
+
+<!-- for producers -->
+{% if is_owner and requestsFrom %}
+<h1>Filter Requests</h1>
+<label for="request-status-filter">Filter by status:</label>
+<select id="request-status-filter" class="uk-select">
+    <option value="">All</option>
+    <option value="Pending">Pending</option>
+    <option value="Approved">Approved</option>
+    <option value="Rejected">Rejected</option>
+    <option value="In-progress">In-progress</option>
+</select>
+
+<div id="requests-table-container">
+    <!-- Table content will be inserted here via JavaScript -->
+</div>
+
+{% if send_invoices %}
+<h1>Send Invoices</h1>
+    <div class="uk-container">
+        <table class="uk-table uk-table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Total Price</th>
+                    <th>Customer</th>
+                    <th>File</th>
+                </tr>
+            </thead>
+            <tbody>  
+                {% for inv in send_invoices %}
+                <tr>
+                    <td>{{inv.created}}</td>
+                    <td>{{inv.offer.request.product.name}}</td>
+                    <td>{{inv.offer.total_price}}</td>
+                    <td>{{inv.offer.request.user}}</td>
+                    <td><a href="{{inv.invoice_file}}" download>Download Invoice</a></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2"></td>
+                    <td><strong>Total: {{ inv_total }}</strong></td>
+                    <td colspan="2"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+<!-- <div class="uk-container">
+<h2>Pending Requests</h2>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Product</th>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>  
+    {% for request in requestsFrom %}
+        {% if request.status == 'Pending' %}
+            {{continue}}
+        {{else}}
+
+        <tr>
+            <td>{{request.created}}</td>
+            <td> <a href="{% url 'product' request.product.id %}">{{ request.product.name }}</a></td>
+            <td> <a href="{% url 'user-profile' request.user.id %}">{{ request.user }}</a></td>
+            <td>{{ request.quantity }}</td>
+            <td> {{request.additional_notes}}</td>
+            <td>{{ request.status }}</td>
+            {% if request.status == 'Pending' %}
+            <td><a href="{% url 'send-offer' request.id %}">Send offer</a></td>
+            {% endif %}
+             <td><a>Edit</a> <a>Delete</a></td> 
+        </tr>
+        {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<div class="uk-container">
+    <h2>In-progress & Approved Requests</h2>
+    <table class="uk-table uk-table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Customer</th>
+                <th>Quantity</th>
+                <th>Notes</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>  
+        {% for request in requestsFrom %}
+            {% if request.status != 'Pending' %}
+                {{continue}}
+            {{else}}
+    
+            <tr>
+                <td>{{request.created}}</td>
+                <td> <a href="{% url 'product' request.product.id %}">{{ request.product.name }}</a></td>
+                <td> <a href="{% url 'user-profile' request.user.id %}">{{ request.user }}</a></td>
+                <td>{{ request.quantity }}</td>
+                <td> {{request.additional_notes}}</td>
+                <td>{{ request.status }}</td>
+                {% if request.status == 'Pending' %}
+                <td><a href="{% url 'send-offer' request.id %}">Send offer</a></td>
+                {% endif %}
+                 <td><a>Edit</a> <a>Delete</a></td> 
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    </div> -->
+
+
+{% endif %}
+
+{% if is_owner and offers %}
+<div class="uk-container">
+    <h2>Offers Pending</h2>
+    <table class="uk-table uk-table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>  
+        {% for offer in offers %}
+
+            {% if offer.status == 'Accepted' %}
+                {{continue}}
+            {% else %}
+            <tr>
+                <td>{{offer.created}}</td>
+                <td>{{offer.status}}</td>
+                <td><a href="{% url 'user-profile' offer.request.user.id %}">{{offer.request.user}}</a></td>
+                <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+                <td>{{ offer.quantity }}</td>
+                <td>{{offer.unit_price}}</td>
+                <td>{{ offer.total_price }}</td>
+                <td></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="uk-container">
+        <h2>Offers Accepted</h2>
+        <table class="uk-table uk-table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Customer</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total Price</th>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>  
+            {% for offer in offers %}
+    
+                {% if offer.status != 'Accepted' %}
+                    {{continue}}
+                {% else %}
+                <tr>
+                    <td>{{offer.created}}</td>
+                    <td>{{offer.status}}</td>
+                    <td><a href="{% url 'user-profile' offer.request.user.id %}">{{offer.request.user}}</a></td>
+                    <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+                    <td>{{ offer.quantity }}</td>
+                    <td>{{offer.unit_price}}</td>
+                    <td>{{ offer.total_price }}</td>
+                    {% if offer.status == 'Accepted' and not offer.invoice %}
+                    <td><a href="{% url 'send-invoice' offer.id %}" class="send-invoice">Send Invoice</a></td>
+                    {% endif %}
+                    <td></td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+{% endif %}
+<!-- for customer -->
+{% if is_owner and requestsTo %}
+<div class="uk-container">
+<h2>My Requests</h2>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Product</th>
+            <th>Producer</th>
+            <th>Quantity</th>
+            <th>Notes</th>
+            <th>Status</th>
+            
+        </tr>
+    </thead>
+    <tbody>  
+    {% for request in requestsTo %}
+        <tr>
+            <td>{{request.created}}</td>
+            <td> <a href="{% url 'product' request.product.id %}">{{ request.product.name }}</a></td>
+            <td> <a href="{% url 'user-profile' request.product.producer.id %}">{{ request.product.producer }}</a></td>
+            <td>{{ request.quantity }}</td>
+            <td> {{request.additional_notes}}</td>
+            <td>{{ request.status }}</td>
+            <td></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+{% if is_owner and received_offers %}
+<div class="uk-container">
+<h2>Pending Offers</h2>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Producer</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+            <th>Accept</th>
+            <th>Reject</th>
+        </tr>
+    </thead>
+    <tbody>  
+    {% for offer in received_offers %}
+        {% if offer.status == 'Accepted' %}
+
+            {{continue}}
+        {% else %}
+        <tr>
+            <td>{{offer.created}}</td>
+            <td>{{offer.status}}</td>
+            <td><a href="{% url 'user-profile' offer.producer.id %}">{{offer.producer}}</a></td>
+            <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+            <td>{{ offer.quantity }}</td>
+            <td>{{offer.unit_price}}</td>
+            <td>{{ offer.total_price }}</td>
+            {% if offer.status != 'Accepted' %}
+            <td><a href="#" class="accept-offer" data-offer-id="{{offer.id}}">Accept</a></td>
+            <td><a href="#" class="reject-offer" data-offer-id="{{offer.id}}">Reject</a></td>
+            {% endif %}
+        </tr>
+        {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="uk-container">
+    <h2>Accepted Offers</h2>
+    <table class="uk-table uk-table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Producer</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+                
+            </tr>
+        </thead>
+        <tbody>  
+        {% for offer in received_offers %}
+            {% if offer.status != 'Accepted' %}
+    
+                {{continue}}
+            {% else %}
+            <tr>
+                <td>{{offer.created}}</td>
+                <td>{{offer.status}}</td>
+                <td><a href="{% url 'user-profile' offer.producer.id %}">{{offer.producer}}</a></td>
+                <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+                <td>{{ offer.quantity }}</td>
+                <td>{{offer.unit_price}}</td>
+                <td>{{ offer.total_price }}</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if received_invoices %}
+    <h2>Invoices</h2>
+    {% for inv in received_invoices %}
+        {{inv.created}}
+        {{inv.invoice_file}}<br>
+    {% endfor %}
+    {% endif %}
+
+    </div>
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.accept-offer').on('click', function(e){
+            e.preventDefault();
+            var offerId = $(this).data('offer-id');
+            // console.log("Offer ID: ", offerId);
+            var url = "{% url 'accept-offer' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', offerId);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'answer-status': 'Accepted'
+                },
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(response) {
+                    alert('An error occurred while accepting the offer.');
+                }
+            });
+        });
+        $('.reject-offer').on('click', function(e){
+            e.preventDefault();
+            var offerId = $(this).data('offer-id');
+            // console.log("Offer ID: ", offerId);
+            var url = "{% url 'accept-offer' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', offerId);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'answer-status': 'Rejected'
+                },
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(response) {
+                    alert('An error occurred while rejecting the offer.');
+                }
+            });
+        });
+
+        // Function to load requests based on the selected status
+        function loadRequests(status) {
+            var profileId = "{{ user.id }}";  // Ensure this value is properly set
+            var url = '{% url "filter-requests" "dummy-id" %}'.replace('dummy-id', profileId);
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: {
+                    'status': status
+                },
+                success: function(response) {
+                    // console.log("Response received:", response); // Debugging line
+                    $('#requests-table-container').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error:", error); // Debugging line
+                    alert('An error occurred while filtering the requests.');
+                }
+            });
+        }
+
+        // Initial load of all requests
+        loadRequests('');
+
+        // Event listener for the dropdown filter
+        $('#request-status-filter').change(function() {
+            var selectedStatus = $(this).val();
+            // console.log("Selected status:", selectedStatus); // Debugging line
+            loadRequests(selectedStatus);
+        });
+    });
+</script>
+{% endblock %}
