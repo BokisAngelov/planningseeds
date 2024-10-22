@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(t0jne#mb#j+07xs+uv=@ni_a^ubl-+rqswa!9st#-yw6r77_n
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['192.168.0.6', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['1867-194-233-18-200.ngrok-free.app', '127.0.0.1']
 
 # Application definition
 
@@ -44,7 +44,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

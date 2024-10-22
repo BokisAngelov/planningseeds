@@ -3,13 +3,11 @@
 {% block content %}
 <h1 class="uk-text-center uk-margin-medium uk-margin-medium-top">Products</h1>
 
-<div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+<div class="uk-child-width-1-3 uk-grid-small uk-text-center" uk-grid>
     {% for product in products %}
         <div>
             <div class="uk-card uk-card-default uk-card-body">
                 <h2><a href="{% url 'product' product.id %}">{{ product.name }}</a></h2>
-                <p>{{ product.description }}</p>
-                <p>Category</p>
                 {% for category in product.category.all %}
                     <span>{{category}}</span>
                 {% endfor %}

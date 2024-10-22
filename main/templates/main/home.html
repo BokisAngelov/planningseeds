@@ -12,4 +12,28 @@
     
 </div>
 
+<div class="uk-container">
+    <h2 class="uk-text-center">Available Products</h2>
+    <div class="uk-child-width-1-3 uk-grid-small uk-text-center" uk-height-match uk-grid>
+        {% for product in products %}
+            <div>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <h2><a href="{% url 'product' product.id %}">{{ product.name }}</a></h2>
+                    {% for category in product.category.all %}
+                        <span>{{category}}</span>
+                    {% endfor %}
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% endif %}
+                    {% if request.user.is_authenticated and request.user.userprofile.owner.id == request.user.userprofile.id %}
+                    <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
+                    <a class="uk-link" href="{% url 'product' product.id %}">View</a>
+                    <a class="uk-link" href="{% url 'delete-product' product.id %}">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}

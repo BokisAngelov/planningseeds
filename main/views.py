@@ -28,9 +28,14 @@ def product_list(request):
 def product(request, pk):
     productObj = Product.objects.get(id=pk)
     requestsTo = Request.objects.filter(product=productObj)
-    requestsFrom = Request.objects.filter(product=productObj, user=request.user.userprofile)
 
-    offers = Offer.objects.filter(producer=request.user.userprofile, request__product=productObj)
+    # Initialize empty QuerySets for unauthenticated users
+    requestsFrom = Request.objects.none()
+    offers = Offer.objects.none()
+
+    if request.user.is_authenticated:
+        requestsFrom = Request.objects.filter(product=productObj, user=request.user.userprofile)
+        offers = Offer.objects.filter(producer=request.user.userprofile, request__product=productObj)
 
     context = {
         'productObj': productObj,
@@ -145,8 +150,13 @@ def updateProduct(request, pk):
             form.save()
             return redirect('product', product.id)
 
-    context = {'form': form}
-    return render(request, 'main/product_form.html', context)
+    context = {'form': form, 'product': product}
+    return render(request, 'main/edit_product.html', context)
+
+# @login_required(login_url="login")
+# def editProduct(request, pk):
+
+#     return render(request, 'main/edit_product.html')
 
 @login_required(login_url="login")
 def deleteProduct(request, pk):
@@ -243,18 +253,21 @@ def userProfile(request, pk):
     send_invoices = None
     received_invoices = None
     inv_total = None
+
+    if request.user.is_authenticated:
+
+        is_owner = request.user == user.user
     # Fetch requests based on the user type
-    if user.user_type == 'producer' and request.user == user.user:
-        requestsFrom = Request.objects.filter(product__producer=user)
-        offers = Offer.objects.filter(producer=user)
-        send_invoices = Invoice.objects.filter(offer__producer=user)
-        # Calculate the grand total
-        inv_total = sum(inv.offer.total_price for inv in send_invoices)
-    else:
-        if request.user.userprofile.user_type == 'customer' and request.user == user.user:
-            requestsTo = Request.objects.filter(user=request.user.userprofile)
-            received_offers = Offer.objects.filter(request__in=requestsTo)
-            received_invoices = Invoice.objects.filter(offer__request__user=user)
+        if user.user_type == 'producer' and is_owner:
+            requestsFrom = Request.objects.filter(product__producer=user)
+            offers = Offer.objects.filter(producer=user)
+            send_invoices = Invoice.objects.filter(offer__producer=user)
+            # Calculate the grand total
+            inv_total = sum(inv.offer.total_price for inv in send_invoices)
+        elif request.user.userprofile.user_type == 'customer':
+                requestsTo = Request.objects.filter(user=request.user.userprofile)
+                received_offers = Offer.objects.filter(request__in=requestsTo)
+                received_invoices = Invoice.objects.filter(offer__request__user=user)
         
     # Handle AJAX
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':

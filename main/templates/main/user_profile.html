@@ -19,14 +19,20 @@
     {% for product in products %}
     <div>
         <div class="uk-card uk-card-default uk-card-body">
-    <h1><a href="{% url 'product' product.id %}">{{product.name}}</a></h1>
-    <p>{{product.description}}</p>
+        <h1><a href="{% url 'product' product.id %}">{{product.name}}</a></h1>
+        <p>{{product.description}}</p>
         {% for category in product.category.all %}
             <span>{{category}}</span>
-            </div>
-        </div>
         {% endfor %}
-
+        {% if request.user.is_authenticated and request.user.userprofile == product.producer %}
+        <div>
+            <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
+            <a class="uk-link" href="{% url 'delete-product' product.id %}">Delete</a>
+        </div>
+        {% endif %}
+        </div>
+            
+    </div>    
     {% endfor %}
 </div>
 
