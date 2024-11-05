@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Product, Request, UserProfile, Offer
+from django_countries.fields import CountryField
 
 class ProductForm(ModelForm):
     class Meta:
@@ -18,11 +19,13 @@ class ProductForm(ModelForm):
             field.widget.attrs.update({'class': 'uk-input'})
 
 class UserEditForm(forms.ModelForm):
+
+    # country = forms.CountryField(required=False)
     class Meta:
         model = UserProfile
-        fields = ['first_name', 'last_name', 'email', 'profile_image', 'phone_number', 'address', 'company_name']
+        fields = ['first_name', 'last_name', 'email', 'profile_image', 'phone_number', 'address', 'company_name', 'country']
         widgets = {
-            'user_type': forms.RadioSelect()
+            'user_type': forms.RadioSelect()            
         }
 
     def __init__(self, *args, **kwargs):
@@ -33,6 +36,7 @@ class UserEditForm(forms.ModelForm):
 class CustomUserCreationForm(UserCreationForm):
 
     user_type = forms.ChoiceField(choices=UserProfile.USER_TYPE_CHOICES)
+    country = CountryField(blank_label='Select country', required=False).formfield() 
 
     class Meta:
         model = User

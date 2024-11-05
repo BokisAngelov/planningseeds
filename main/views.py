@@ -85,8 +85,15 @@ def registerUser(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
-            user.user_type = form.cleaned_data.get('user_type')
             user.save()
+
+            UserProfile.objects.update_or_create(
+                user=user,
+                defaults={
+                    'user_type': form.cleaned_data.get('user_type'),
+                    'country': form.cleaned_data.get('country'),
+                }
+            )
 
             messages.success(request, 'User account was created!')
 

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 import datetime
+from django_countries.fields import CountryField
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -24,6 +25,7 @@ class UserProfile(models.Model):
     phone_number = models.CharField(max_length=15, blank=True, null=True)  
     address = models.TextField(max_length=200, blank=True, null=True)
     company_name = models.CharField(max_length=100, null=True, blank=True)
+    country = CountryField(blank_label='Select country', null=True, blank=True)
 
     def __str__(self):
         return str(self.username)
