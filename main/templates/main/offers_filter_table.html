@@ -1,0 +1,12 @@
+{% for offer in offers %}
+    <tr>
+        <td>{{offer.created}}</td>
+        <td>{{offer.status}}</td>
+        <td><a href="{% url 'user-profile' offer.request.user.id %}">{{offer.request.user}}</a></td>
+        <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+        <td>{{ offer.quantity }}</td>
+        <td>{{offer.unit_price}}</td>
+        <td>{{ offer.total_price }}</td>
+        <td></td>
+    </tr>
+{% endfor %}

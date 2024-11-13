@@ -1,0 +1,10 @@
+{% for inv in invoices %}
+<tr>
+    <td>{{inv.created}}</td>
+    <td>{{inv.offer.request.product.name}}</td>
+    <td>{{inv.offer.total_price}}</td>
+    <td>{{inv.offer.request.user}}</td>
+    <td><a href="{{inv.invoice_file}}" download>Download Invoice</a></td>
+    <td>{{inv.status}}</td>
+</tr>
+{% endfor %}

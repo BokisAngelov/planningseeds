@@ -1,0 +1,23 @@
+{% for product in products %}
+<div>
+    <div class="uk-card uk-card-default uk-card-body">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% endif %}
+        <h2><a href="{% url 'product' product.id %}">{{ product.name }}</a></h2>
+        {% for category in product.category.all %}
+            <span>{{category}}</span><br>
+        {% endfor %}
+        <p>{{ product.producer.country }}</p>
+        {% if request.user.is_authenticated and request.user.userprofile.owner.id == request.user.userprofile.id %}
+        <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
+        <a class="uk-link" href="{% url 'product' product.id %}">View</a>
+        <a class="uk-link" href="{% url 'delete-product' product.id %}">Delete</a>
+        {% endif %}
+    </div>
+</div>
+{% empty %}
+<div>
+    <h2>No products found</h2>
+</div>
+{% endfor %}

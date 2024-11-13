@@ -1,0 +1,18 @@
+{% for profile in profiles %}
+<div>
+    <div class="uk-card uk-card-default uk-card-body">
+        {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}" alt="{{ profile.first_name }}">
+        {% endif %}
+        <h2><a href="{% url 'user-profile' profile.id %}">{{ profile.first_name }} {% if profile.last_name %} {{ profile.last_name }} {% endif %}</a></h2>
+        {% if profile.country %}
+        <p>{{ profile.country }}</p>
+        {% endif %}
+    </div>
+</div>
+
+{% empty %}
+<div>
+    <h2>No producers found</h2>
+</div>
+{% endfor %}
