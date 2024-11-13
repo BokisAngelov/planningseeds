@@ -2,3 +2,8 @@ h1{
     color: blueviolet;
     font-size: 55px;
 }
+
+.uk-button.uk-button-primary{
+    background-color: #ec6508;
+    color: #fff;
+}

@@ -36,13 +36,14 @@ class UserEditForm(forms.ModelForm):
 class CustomUserCreationForm(UserCreationForm):
 
     user_type = forms.ChoiceField(choices=UserProfile.USER_TYPE_CHOICES)
-    country = CountryField(blank_label='Select country', required=False).formfield() 
+    country = CountryField(blank_label='Select country').formfield() 
 
     class Meta:
         model = User
-        fields = ['first_name', 'email', 'username', 'password1', 'password2', 'user_type']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'user_type', 'country']
         labels = {
-            'first_name': 'Name',
+            'first_name': 'First Name',
+            'last_name': 'Last name'
         }
 
     def __init__(self, *args, **kwargs):

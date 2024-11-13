@@ -12,38 +12,43 @@
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href='{% static "styles/main.css" %}' />
+    <link rel="stylesheet" type="text/css" href='{% static "/styles/main.css" %}' />
+    <!--     <link rel="stylesheet" type="text/css" href='/plannseeds/static/styles/main.css' />
+ -->
 </head>
 <body>
     <nav class="uk-navbar-container uk-padding" uk-navbar>
-            <div class="uk-navbar-left">
-                <h2><a href="/">Logo</a></h2>
-            </div>
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav" uk-nav="multiple: true">
-                    <li class=""><a href="#">About</a></li>
-                    <li class=""><a href="{% url 'products-list' %}">Products</a></li>
-                    <li><a href="{% url 'userprofiles' %}">Producers</a></li>
-                    {% if request.user.is_authenticated %}
-                    <li class="uk-parent"><a href="#">Welcome {{ request.user.userprofile.first_name }} <span uk-nav-parent-icon></span></a>
+        <div class="uk-navbar-left">
+            <h2><a href="/"><img width="200" src="/media/images/planningSeeds_logo.png" /></a></h2>
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav" uk-nav="multiple: true">
+                <li class=""><a href="/how-it-works">How it works</a></li>
+                <li class=""><a href="/about">About</a></li>
+                <li class=""><a href="{% url 'products-list' %}">Products</a></li>
+                <li><a href="{% url 'userprofiles' %}">Producers</a></li>
+                {% if request.user.is_authenticated %}
+                <li class="uk-parent"><a href="#"><span uk-icon="user"> </span>Hi {{ request.user.userprofile.first_name }},</span> <span uk-nav-parent-icon></span></a>
+                    <div uk-dropdown="mode: click">
                         <ul class="uk-nav-sub">
                             <li><a href="{% url 'user-profile' request.user.userprofile.id %}">My profile</a></li>
                             {% if request.user.is_authenticated and request.user.userprofile.user_type == 'producer' %}
                             <li ><a href="{% url 'create-product' %}">Add new product</a></li>
                             {% endif %}
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
                         </ul>
-                    </li>
-                    {% endif %}
-                    {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                    <!-- <li><a href="{% url 'user-profile' request.user.userprofile.id %}">My profile</a></li> -->
-                    {% else %}
-                    <li><a href="{% url 'login' %}">Login/Sign Up</a></li>
-                    {% endif %}
-                </ul>
-                
-            </div>
+                    </div>
+                </li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                {% else %}
+                <li><a href="{% url 'login' %}">Login/Sign Up <span uk-icon="user"></span></a></li>
+                {% endif %}
+            </ul>
+            
+        </div>
     </nav>
     <div class="uk-container uk-margin-medium-top" uk-height-viewport="expand: true">
 

@@ -39,7 +39,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True) # null for db blank for django
     category = models.ManyToManyField('Categories', blank=True)
     quantity = models.PositiveIntegerField(default=0, null=True, blank=True)
-    image = models.ImageField(upload_to='images/', null=True, blank=True, default="default.jpg")
+    image = models.ImageField(upload_to='product_images/', null=True, blank=True, default="default.jpg")
     producer = models.ForeignKey(UserProfile, on_delete=models.CASCADE, limit_choices_to={'user_type': 'producer'}, null=True, blank=True)
     # vote_total = models.IntegerField(default=0, null=True, blank=True)
     # vote_ratio = models.IntegerField(default=0, null=True, blank=True)

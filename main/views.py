@@ -4,16 +4,23 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
-from .models import Product, UserProfile, Request, Offer, Invoice
+from .models import Product, UserProfile, Request, Offer, Invoice, Categories
 from .forms import CustomUserCreationForm, ProductForm, RequestOfferForm, UserEditForm, SendOfferForm, OfferEditForm
 from django.conf import settings
+from django.template.loader import render_to_string
 import openpyxl
 import os
 
 
+def about(request):
+    return render(request, 'main/about.html')
+
+def howWorks(request):
+    return render(request, 'main/how_works.html')
+
 def homepage(request):
-    producers = UserProfile.objects.filter(user_type='producer')
-    products = Product.objects.all()
+    producers = UserProfile.objects.filter(user_type='producer')[:8]
+    products = Product.objects.order_by('-created')[:5]
 
     context = {
         'producers': producers,
@@ -22,8 +29,76 @@ def homepage(request):
     return render(request, 'main/home.html', context)
 
 def product_list(request):
+    products = Product.objects.order_by('-created')
+    categories = Categories.objects.all()
+    countries = UserProfile.objects.filter(user_type='producer').values_list('country', flat=True).distinct()
+
+    context = {
+        'products': products,
+        'categories': categories,
+        'countries': countries
+    }
+    return render(request, 'main/product_list.html', context)
+
+def filter_products(request):
+    categories = request.GET.getlist('categories')
+    countries = request.GET.getlist('countries')
+
     products = Product.objects.all()
-    return render(request, 'main/product_list.html', {'products': products})
+
+    if categories:
+        products = Product.objects.filter(category__in=categories)
+    if countries:
+        products = Product.objects.filter(producer__country__in=countries)
+
+    
+    products = products.distinct()
+    products = products.order_by('-created')
+    
+    html = render_to_string('main/product_filter_grid.html', {'products': products})
+    return JsonResponse({'html': html})
+
+def filter_producers(request):
+    countries = request.GET.getlist('countries')
+    producers = UserProfile.objects.filter(user_type='producer')
+
+    if countries:
+        producers = UserProfile.objects.filter(user_type='producer', country__in=countries)
+
+    producers = producers.distinct()
+    producers = producers.order_by('-created')
+
+    html = render_to_string('main/profiles_filter_grid.html', {'profiles': producers})
+    return JsonResponse({'html': html})
+
+def filterInvoices(request):
+    invoice_status = request.GET.get('status')
+
+    if invoice_status:
+        invoices = Invoice.objects.filter(status=invoice_status, offer__producer=request.user.userprofile)
+    else:
+        invoices = Invoice.objects.filter(offer__producer=request.user.userprofile)
+        
+    invoices = invoices.distinct()
+    invoices = invoices.order_by('-created')
+
+    html = render_to_string('main/invoices_filter_table.html', {'invoices': invoices})
+    return JsonResponse({'html': html})
+
+def filterOffers(request):
+    offer_status = request.GET.get('status')
+
+    if offer_status:
+        offers = Offer.objects.filter(status=offer_status, producer=request.user.userprofile)
+    else:
+        offers = Offer.objects.filter(producer=request.user.userprofile)
+        
+    offers = offers.distinct()
+    offers = offers.order_by('-created')
+
+    html = render_to_string('main/offers_filter_table.html', {'offers': offers})
+    return JsonResponse({'html': html})
+
 
 def product(request, pk):
     productObj = Product.objects.get(id=pk)
@@ -73,7 +148,7 @@ def loginUser(request):
 
 def logoutUser(request):
     logout(request)
-    messages.error(request, 'User was logged out!')
+
     return redirect('/')
 
 def registerUser(request):
@@ -95,8 +170,6 @@ def registerUser(request):
                 }
             )
 
-            messages.success(request, 'User account was created!')
-
             login(request, user)
             return redirect('/')
         else:
@@ -114,7 +187,6 @@ def editUser(request):
         form = UserEditForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Your profile has been updated!')
             return redirect('user-profile', profile.id) 
 
     context = {'form': form}
@@ -308,8 +380,9 @@ def userProfile(request, pk):
 
 def userProfiles(request):
     profiles = UserProfile.objects.filter(user_type='producer')
+    countries = UserProfile.objects.filter(user_type='producer').values_list('country', flat=True).distinct()
    
-    context = {'profiles': profiles}
+    context = {'profiles': profiles, 'countries': countries}
     return render(request, 'main/profiles.html', context)
 
 @login_required(login_url='login')

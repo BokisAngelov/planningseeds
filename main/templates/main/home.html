@@ -3,18 +3,55 @@
 {% block content %}
 
 <div class="uk-container">
-    <h1 class="uk-text-center">Welcome to the planning seeds web application</h1>
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    
-    {% if not request.user.is_authenticated %} 
-        <a class="uk-button uk-button-primary" href="{% url 'login' %}">Create an account</a>        
-    {% endif %}
+
+    <div class="uk-grid uk-margin-large-top uk-margin-large-bottom" uk-grid>
+        <div class="uk-width-1-2">
+            <h1 class="">Welcome to the planning seeds web application</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            
+            {% if not request.user.is_authenticated %} 
+                <a class="uk-button uk-button-primary uk-text-center" href="{% url 'register' %}">Create an account</a>        
+            {% endif %}
+        </div>
+        <div class="uk-width-1-2">
+            <img src="/media/images/introImage.png" alt="Welcome to Planning Seeds web application" />
+        </div>
+    </div>
     
 </div>
 
 <div class="uk-container">
-    <h2 class="uk-text-center">Available Products</h2>
-    <div class="uk-child-width-1-3 uk-grid-small uk-text-center" uk-height-match uk-grid>
+    <h2 class="">Recent Products</h2>
+
+    <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
+        <div class="uk-slider-items uk-child-width-1-3 uk-grid uk-grid-match" uk-height-match uk-grid>
+            {% for product in products %}
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% endif %}
+                        <h2><a href="{% url 'product' product.id %}">{{ product.name }}</a></h2>
+                        {% for category in product.category.all %}
+                            <span>{{category}}</span><br>
+                        {% endfor %}
+                        <p>{{ product.producer.country }}</p>
+                        {% if request.user.is_authenticated and request.user.userprofile.owner.id == request.user.userprofile.id %}
+                        <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
+                        <a class="uk-link" href="{% url 'product' product.id %}">View</a>
+                        <a class="uk-link" href="{% url 'delete-product' product.id %}">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="next"></a>
+
+    
+    </div>
+<!--<div class="uk-child-width-1-3 uk-grid-small" uk-height-match uk-grid>
         {% for product in products %}
             <div>
                 <div class="uk-card uk-card-default uk-card-body">
@@ -33,7 +70,6 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
-</div>
-
+    </div>-->
+</div>  
 {% endblock %}

@@ -2,21 +2,44 @@
 
 {% block content %}
 
-<h1>{{productObj.name}}</h1>
-<hr>
-{% for category in productObj.category.all %}
-    <span>{{category}}</span>
-{% endfor %}
-<p>Quantity: {{productObj.quantity}}</p>
-<hr>
-<p>Owner: <a href="{% url 'user-profile' productObj.producer.id %}">{{productObj.producer.first_name}} {{productObj.producer.last_name}}</a></p>
-<p>{{productObj.description}}</p>
-{% if request.user.is_authenticated and request.user.userprofile == productObj.producer %}
-<div>
-    <a class="uk-link" href="{% url 'update-product' productObj.id %}">Edit</a>
-    <a class="uk-link" href="{% url 'delete-product' productObj.id %}">Delete</a>
+<div class="uk-card uk-card-default uk-padding">
+    <div class="uk-grid">
+        {% if productObj.image %}
+        <div class="uk-width-1-2">
+            <img src="{{ productObj.image.url }}" alt="{{ productObj.name }}">
+        </div>
+        {% endif %}
+        <div class="uk-width-1-2">
+            {% if request.user.is_authenticated and request.user.userprofile == productObj.producer %}
+            <div>
+                <a class="uk-link" href="{% url 'update-product' productObj.id %}">Edit</a>
+                <a class="uk-link" href="{% url 'delete-product' productObj.id %}">Delete</a>
+            </div>
+            {% endif %}
+            <h2 class="uk-margin-small-top uk-margin-small-bottom">{{productObj.name}}</h2>
+            {% if productObj.quantity > 0 %}
+            <p class="uk-margin-small-top uk-margin-small-bottom">Available Quantinty: {{productObj.quantity}}</p>
+            {% endif %}
+            <p class="uk-margin-small-top uk-margin-small-bottom"><a href="{% url 'user-profile' productObj.producer.id %}">{{productObj.producer.first_name}} {% if productObj.producer.last_name %}{{productObj.producer.last_name}} {% endif %}</a></p>
+
+            {% if productObj.producer.country %}
+            <p class="uk-margin-small-top uk-margin-small-bottom"> {{ productObj.producer.country }}</p>
+            {% endif %}
+        </div>
+    </div>
+    <h3 class="uk-margin-top-large uk-margin-small-bottom">Description</h3>
+    <p>{{productObj.description}}</p>
+
+    {% if productObj.category %}
+        <h3 class="uk-margin-top uk-margin-small-bottom">Details</h3>
+        {% for category in productObj.category.all %}
+            <span>#{{category}}</span><br>
+        {% endfor %}
+    {% endif %}
 </div>
-{% endif %}
+
+
+
 
 {% if request.user.userprofile.user_type == 'customer' %}
 <a class="uk-button uk-button-primary" href="{% url 'request-offer' productObj.id %}">Request an offer</a>
