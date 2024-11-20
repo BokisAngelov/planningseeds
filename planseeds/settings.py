@@ -125,7 +125,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILE_DIRS = [
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'planseeds/static')
 ]
 

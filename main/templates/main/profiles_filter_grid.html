@@ -1,12 +1,16 @@
 {% for profile in profiles %}
 <div>
     <div class="uk-card uk-card-default uk-card-body">
-        {% if profile.profile_image %}
-            <img src="{{ profile.profile_image.url }}" alt="{{ profile.first_name }}">
-        {% endif %}
-        <h2><a href="{% url 'user-profile' profile.id %}">{{ profile.first_name }} {% if profile.last_name %} {{ profile.last_name }} {% endif %}</a></h2>
+        <div class="grid-img">
+            {% if profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" alt="{{ profile.first_name }}">
+            {% else %}
+            <img src="/media/images/default_userimg.png" alt="{{ profile.first_name }}">
+            {% endif %}
+        </div>
+        <h3><a href="{% url 'user-profile' profile.id %}">{{ profile.first_name }} {% if profile.last_name %} {{ profile.last_name }} {% endif %}</a></h3>
         {% if profile.country %}
-        <p>{{ profile.country }}</p>
+        <p>{{ profile.country.name }}</p>
         {% endif %}
     </div>
 </div>

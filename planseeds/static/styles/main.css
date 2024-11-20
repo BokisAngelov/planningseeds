@@ -1,9 +1,104 @@
 h1{
-    color: blueviolet;
+    color: #ea6003;
+    
+}
+.uk-h1{
+    color: #ea6003;
     font-size: 55px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+h2, h3, h4{
+    color: #727272;
+}
+a{
+    color: #712986;
+}
+.small-text{
+    font-size: 13px;
+}
+.messages{
+    background: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #e61a42;
+    margin-bottom: 20px;
+}
+.messages p{
+    margin: 0;
+    color: #424242;
+}
+.uk-button{
+    color: #fff!important;
+    border-radius: 22px;
+}
+.uk-button-primary{
+    background-color: #ec6508!important;
+}
+.uk-button-primary:hover{
+    color: #ea6003!important;
+    border-color: #ea6003;
+    background-color: #fff!important;
+}
+.uk-button-secondary{
+    background-color:#712986; 
+}
+.uk-button-secondary:hover{
+    color: #712986!important;
+    border-color: #712986;
+    background-color: #fff!important;
+}
+.uk-card-default{
+    box-shadow: 0 12px 17px 0px rgba(0,0,0,0.20);
+    border-radius: 14px;
+}
+.uk-slider-container{
+    overflow-y: visible;
+    padding: 0 20px;
+}
+.uk-dropdown{
+    border-radius: 14px;
+}
+.products-grid img{
+    max-height: 200px;
+}
+.products-grid h3 a{
+    color: #727272;
+    transition: all .2s;
+}
+.products-grid h3 a:hover{
+    color: #ea6003;
+    text-decoration: none;
 }
 
-.uk-button.uk-button-primary{
-    background-color: #ec6508;
-    color: #fff;
+.grid-img{
+    text-align: center;
+}
+.category-span{
+    font-size: 14px;
+}
+form label{
+    color: #424242;
+    padding-bottom: 4px;
+    display: block;
+}
+.uk-input{
+    border-radius: 8px;
+    border-color: #424242;
+}
+.uk-slider .uk-position-center-right,
+.uk-slider .uk-position-center-left{
+    margin: 0;
+}
+.uk-slider .uk-position-center-left{
+    left: -10px;
+}
+.uk-slider .uk-position-center-right{
+    right: -10px;
+}
+.uk-icon svg,
+.uk-position-center-right.uk-icon:not(.uk-preserve) [stroke*="#"]:not(.uk-preserve),
+.uk-position-center-left.uk-icon:not(.uk-preserve) [stroke*="#"]:not(.uk-preserve){
+    stroke: #ea6003!important;
+    stroke-width: 3px;
 }

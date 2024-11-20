@@ -16,16 +16,16 @@ class UserProfile(models.Model):
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='Customer')
     id = models.UUIDField(default=uuid.uuid1, unique=True, primary_key=True, editable=False)
     created = models.DateTimeField(default=datetime.datetime.now)
-    first_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=50, blank=True, null=True)
+    first_name = models.CharField(max_length=50, blank=False, null=True)
+    last_name = models.CharField(max_length=50, blank=False, null=True)
     username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=100, null=True, blank=True)  # Ensure to handle passwords securely
-    email = models.EmailField(unique=True, blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
+    password = models.CharField(max_length=100, null=True, blank=False)  # Ensure to handle passwords securely
+    email = models.EmailField(unique=True, blank=False, null=True)
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True, default="/images/default_userimg.png")
     phone_number = models.CharField(max_length=15, blank=True, null=True)  
     address = models.TextField(max_length=200, blank=True, null=True)
     company_name = models.CharField(max_length=100, null=True, blank=True)
-    country = CountryField(blank_label='Select country', null=True, blank=True)
+    country = CountryField(blank_label='Select country', null=True, blank=False)
 
     def __str__(self):
         return str(self.username)
@@ -36,10 +36,10 @@ class UserProfile(models.Model):
     
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True) # null for db blank for django
-    category = models.ManyToManyField('Categories', blank=True)
+    description = models.TextField(null=True, blank=False) # null for db blank for django
+    category = models.ManyToManyField('Categories', blank=False)
     quantity = models.PositiveIntegerField(default=0, null=True, blank=True)
-    image = models.ImageField(upload_to='product_images/', null=True, blank=True, default="default.jpg")
+    image = models.ImageField(upload_to='product_images/', null=True, blank=True, default="images/default_productimg.png")
     producer = models.ForeignKey(UserProfile, on_delete=models.CASCADE, limit_choices_to={'user_type': 'producer'}, null=True, blank=True)
     # vote_total = models.IntegerField(default=0, null=True, blank=True)
     # vote_ratio = models.IntegerField(default=0, null=True, blank=True)

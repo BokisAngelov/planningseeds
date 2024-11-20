@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="uk-card uk-card-default uk-padding">
+<div class="uk-card uk-card-default uk-padding uk-width-2xlarge">
     {% if is_owner %}
     <div class="uk-margin-small">
         <a class="link-text" href="{% url 'edit-user' %}"><span uk-icon="pencil"></span> Edit profile</a>
@@ -14,7 +14,7 @@
             <img src="{{ user.profile_image.url }}" alt="{{ user.name }}">
         </div>
         {% endif %}
-        <div class="uk-width-3-4">
+        <div class="uk-width-3-4 user-details">
             <h3>{{ user.first_name }} {% if user.last_name %}{{ user.last_name }} {% endif %}</h3>
             
             {% if user.company_name %}
@@ -26,7 +26,7 @@
             {% endif %}
 
             {% if user.country %}
-            <p>{{ user.country }}</p>
+            <p>{{ user.country.name }}</p>
             {% endif %}
 
             {% if user.phone_number %}
@@ -40,18 +40,18 @@
 {% if products %}
 <h2>Recent Products</h2>
 <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
-    <div class="uk-slider-items uk-child-width-1-3 uk-grid uk-grid-match" uk-height-match uk-grid>
+    <div class="uk-slider-items uk-child-width-1-3 uk-grid products-grid" uk-grid>
         {% for product in products %}
             <div>
                 <div class="uk-card uk-card-default uk-card-body">
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% endif %}
-                    <h2><a href="{% url 'product' product.id %}">{{ product.name }}</a></h2>
+                    <h3><a href="{% url 'product' product.id %}">{{ product.name }}</a></h3>
                     {% for category in product.category.all %}
-                        <span>{{category}}</span><br>
+                        <span class="category-span">#{{category}}</span><br>
                     {% endfor %}
-                    <p>{{ product.producer.country }}</p>
+                    <p>{{ product.producer.country.name }}</p>
                     {% if request.user.is_authenticated and request.user.userprofile.owner.id == request.user.userprofile.id %}
                     <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
                     <a class="uk-link" href="{% url 'product' product.id %}">View</a>
@@ -62,15 +62,15 @@
         {% endfor %}
     </div>
 
-    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="previous"></a>
-    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="next"></a>
+    <a class="uk-position-center-left-out uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="previous"></a>
+    <a class="uk-position-center-right-out uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="next"></a>
 </div>
 
 {% endif %}
 
 <!-- for producers -->
 {% if is_owner and requestsFrom %}
-<h2>My Requests</h2>
+<h2 class="uk-margin">My Requests</h2>
 <label for="request-status-filter">Filter by status:</label>
 <select id="request-status-filter" class="uk-select">
     <option value="">All</option>
@@ -85,7 +85,7 @@
 </div>
 
 {% if send_invoices %}
-<h2>My Invoices</h2>
+<h2 class="uk-margin">My Invoices</h2>
 <label for="invoices-status-filter">Filter by status:</label>
 <select id="invoices-status-filter" class="uk-select">
     <option value="">All</option>
@@ -119,7 +119,7 @@
 {% endif %}
 
 {% if is_owner and offers %}
-<div class="uk-container">
+<div class="uk-container uk-margin">
     <h2>My Offers</h2>
     <label for="offers-status-filter">Filter by status:</label>
     <select id="offers-status-filter" class="uk-select">
@@ -157,7 +157,7 @@
 <!-- for customer -->
 {% if is_owner and requestsTo %}
 <div class="uk-container">
-<h2>My Requests</h2>
+<h2 class="uk-margin">My Requests</h2>
 
 <label for="request-customer-status-filter">Filter by status:</label>
 <select id="request-customer-status-filter" class="uk-select">
@@ -199,7 +199,7 @@
 
 {% if is_owner and received_offers %}
 <div class="uk-container">
-<h2>Pending Offers</h2>
+<h2 class="uk-margin">Pending Offers</h2>
 <table class="uk-table uk-table-striped">
     <thead>
         <tr>
@@ -240,7 +240,7 @@
 </div>
 
 <div class="uk-container">
-    <h2>Accepted Offers</h2>
+    <h2 class="uk-margin">Accepted Offers</h2>
     <table class="uk-table uk-table-striped">
         <thead>
             <tr>
@@ -286,6 +286,10 @@
 {% endif %}
 <script>
     $(document).ready(function(){
+        // Initial load of all requests
+        var currentUserId = "{{ request.user.id }}";  // Logged-in user's ID
+        var profId = "{{ user.id }}";  // Profile being viewed
+        
         $('.accept-offer').on('click', function(e){
             e.preventDefault();
             var offerId = $(this).data('offer-id');
@@ -348,8 +352,14 @@
             });
         }
 
-        // Initial load of all requests
-        loadRequests('');
+        
+
+        if (currentUserId == profId) {
+            loadRequests('');
+            invoiceFilters('');
+            offersFilters('');
+        }
+        
 
         // Event listener for the dropdown filter
         $('#request-status-filter').change(function() {
@@ -382,7 +392,7 @@
             // console.log("Selected status:", selectedStatus); // Debugging line
             invoiceFilters(selectedStatus);
         });
-        invoiceFilters('');
+
         function offersFilters(status){
             var url = '{% url "filter-offers" %}';
 
@@ -410,7 +420,6 @@
             offersFilters(selectedStatus);
         });
 
-        offersFilters('');
     });
 </script>
 {% endblock %}

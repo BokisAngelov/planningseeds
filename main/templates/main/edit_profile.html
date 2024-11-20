@@ -1,16 +1,17 @@
 {% extends 'main.html' %}
 {% block content %}
 <div class="uk-container">
-    <h2>Edit Profile</h2>
+    <h2>Edit my profile</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
-            <div class="">
+            <div class="uk-field uk-margin">
                 <label class="">{{ field.label }}</label>
                 {{field}}
             </div>
         {% endfor %}
-        <button type="submit" class="uk-button uk-button-primary">Save Changes</button> <button type="cancel" class="uk-button uk-button-secondary">cancel</button>
+        <button type="submit" class="uk-button uk-button-primary">Save Changes</button>
+        <button type="cancel" class="uk-button uk-button-secondary">cancel</button>
     </form>
 </div>
 {% endblock %}

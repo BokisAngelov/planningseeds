@@ -6,18 +6,18 @@
 
 <div class="auth">
     <div class="uk-card">
-      <div class="auth__header uk-text-center">
-        <h3>Account SignUp</h3>
+      <div class="auth__header">
+        <h1>Sign Up</h1>
       </div>
 
       <form method="POST" action="{% url 'register' %}" class="uk-form auth__form">
         {% csrf_token %}
 
         {% for field in form %}
-            <div class="form__field uk-field">
+            <div class="form__field uk-field uk-margin">
                 <label for="formInput#text">{{field.label}}</label>
                 {{field}}
-
+                
                 {% if field.help_text %}
                     <small>{{field.help_text}}</small>
                 {% endif %}
@@ -29,9 +29,8 @@
           <input class="uk-button uk-button-primary" type="submit" value="Sign Up" />
         </div>
       </form>
-      <div class="auth__alternative">
-        <p>Already have an Account?</p>
-        <a class="uk-button uk-button-primary" href="{% url 'login' %}">Log In</a>
+      <div class="auth__alternative uk-margin">
+        <p>Already have an Account? <spam><a href="{% url 'login' %}">Log In</a></spam></p>        
       </div>
     </div>
   </div>
@@ -41,34 +40,34 @@
 
     <div class="card">
 
-      <div class="auth__header uk-text-center">
-        <h3>Account Login</h3>
+      <div class="auth__header">
+        <h1>Login</h1>
       </div>
 
       <form action="{% url 'login' %}" method="POST" class="form auth__form">
         {% csrf_token %}
         <!-- Input:Username -->
         <div class="form__field">
-          <label for="formInput#text">Username: </label>
+          <label for="formInput#text uk-margin">Username: </label>
           <input class="uk-input" id="formInput#text" type="text" name="username"
             placeholder="Enter your username..." />
         </div>
 
         <!-- Input:Password -->
-        <div class="form__field">
+        <div class="form__field uk-margin">
           <label for="formInput#password">Password: </label>
           <input class="uk-input" id="formInput#passowrd" type="password" name="password"
             placeholder="••••••••" />
         </div>
-        <div class="auth__actions">
+        <div class="auth__actions uk-margin">
           <input class="uk-button uk-button-primary" type="submit" value="Log In" />
-          <a href="forgetpassword.html">Forget Password?</a>
+          <p><a class="uk-link" href="forgetpassword.html">Forget Password?</a></p>
         </div>
       </form>
 
       <div class="auth__alternative">
-        <p>Don’t have an Account?</p>
-        <a class="uk-button uk-button-primary" href="{% url 'register' %}">Sign Up</a>
+        <p>Don’t have an Account? <a href="{% url 'register' %}"><span>Sign Up</span></a></p>
+        
       </div>
     </div>
   </div>

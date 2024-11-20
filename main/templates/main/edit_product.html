@@ -4,12 +4,6 @@
     <h2>Update Product - {{ product.name }}</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <!-- {% for field in form %}
-            <div class="">
-                <label class="">{{ field.label }}</label>
-                {{field}}
-            </div>
-        {% endfor %} -->
         {{form.as_p}}
         <button type="submit" class="uk-button uk-button-primary">Save Changes</button>
     </form>

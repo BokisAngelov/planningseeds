@@ -10,6 +10,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 import openpyxl
 import os
+import pycountry
 
 
 def about(request):
@@ -31,7 +32,17 @@ def homepage(request):
 def product_list(request):
     products = Product.objects.order_by('-created')
     categories = Categories.objects.all()
-    countries = UserProfile.objects.filter(user_type='producer').values_list('country', flat=True).distinct()
+    country_codes = (
+        UserProfile.objects.filter(user_type='producer')
+        .exclude(country=None)
+        .values_list('country', flat=True)
+        .distinct()
+    )
+
+    countries = [
+        {"code": code, "name": pycountry.countries.get(alpha_2=code).name}
+        for code in set(country_codes)
+    ]
 
     context = {
         'products': products,
@@ -160,22 +171,46 @@ def registerUser(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
-            user.save()
 
-            UserProfile.objects.update_or_create(
-                user=user,
-                defaults={
-                    'user_type': form.cleaned_data.get('user_type'),
-                    'country': form.cleaned_data.get('country'),
-                }
-            )
+            # Collect error messages
+            error_messages = []
 
-            login(request, user)
-            return redirect('/')
+            # Check email validity
+            email = form.cleaned_data.get('email')
+            if not email:
+                error_messages.append("Email is required.")
+            elif UserProfile.objects.filter(email=email).exists():
+                error_messages.append("This email is already in use.")
+
+            # Check required fields
+            required_fields = ['user_type', 'country']
+            for field in required_fields:
+                if not form.cleaned_data.get(field):
+                    error_messages.append(f"{field.replace('_', ' ').capitalize()} is required.")
+
+            if error_messages:
+                # Add all error messages to messages.error
+                messages.error(request, " ".join(error_messages))
+            else:
+                user.save()
+                UserProfile.objects.update_or_create(
+                    user=user,
+                    defaults={
+                        'last_name': user.last_name,
+                        'email': email,
+                        'user_type': form.cleaned_data.get('user_type'),
+                        'country': form.cleaned_data.get('country'),
+                    }
+                )
+                messages.success(request, 'Account was created successfully!')
+                login(request, user)
+                return redirect('/')
         else:
-            messages.error(request, 'Error occurred during registration!')
+            # Handle form.errors
+            for field, errors in form.errors.items():
+                messages.error(request, f"{field.capitalize()}: {' '.join(errors)}")
 
-    context = {'page': page, 'form':form}
+    context = {'page': page, 'form': form}
     return render(request, 'main/login_register.html', context)
 
 @login_required(login_url="login")
@@ -187,6 +222,7 @@ def editUser(request):
         form = UserEditForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request, 'You have updated your profile!')
             return redirect('user-profile', profile.id) 
 
     context = {'form': form}
@@ -206,6 +242,7 @@ def createProduct(request):
             product = form.save(commit=False)
             product.producer = profile
             form.save()
+            messages.success(request, 'You have added a new product!')
             return redirect('user-profile', profile.id)
 
     context = {'form': form}
@@ -227,15 +264,12 @@ def updateProduct(request, pk):
         
         if form.is_valid():
             form.save()
+            messages.success(request, 'You have updated your product!')
             return redirect('product', product.id)
 
     context = {'form': form, 'product': product}
     return render(request, 'main/edit_product.html', context)
 
-# @login_required(login_url="login")
-# def editProduct(request, pk):
-
-#     return render(request, 'main/edit_product.html')
 
 @login_required(login_url="login")
 def deleteProduct(request, pk):
@@ -245,6 +279,7 @@ def deleteProduct(request, pk):
 
     if request.method == 'POST':
         product.delete()
+        messages.success(request, 'You have deleted your product!')
         return redirect('user-profile', profile.id)
 
     context = {'object': product}
@@ -380,7 +415,17 @@ def userProfile(request, pk):
 
 def userProfiles(request):
     profiles = UserProfile.objects.filter(user_type='producer')
-    countries = UserProfile.objects.filter(user_type='producer').values_list('country', flat=True).distinct()
+    country_codes = (
+        UserProfile.objects.filter(user_type='producer')
+        .exclude(country=None)
+        .values_list('country', flat=True)
+        .distinct()
+    )
+
+    countries = [
+        {"code": code, "name": pycountry.countries.get(alpha_2=code).name}
+        for code in set(country_codes)
+    ]
    
     context = {'profiles': profiles, 'countries': countries}
     return render(request, 'main/profiles.html', context)

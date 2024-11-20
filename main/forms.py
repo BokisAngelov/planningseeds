@@ -18,6 +18,13 @@ class ProductForm(ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'uk-input'})
 
+        
+        # Customize specific fields
+        self.fields['description'].widget.attrs.update({'rows': 4, 'style': 'height: 100px;'})
+        self.fields['category'].widget.attrs.update({'size': 5, 'style': 'height: auto;'})
+        self.fields['image'].widget.attrs.update({'class': 'img-input'})
+        
+
 class UserEditForm(forms.ModelForm):
 
     # country = forms.CountryField(required=False)
@@ -33,6 +40,8 @@ class UserEditForm(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'uk-input'})
 
+        self.fields['profile_image'].widget.attrs.update({'class': 'img-input'})
+
 class CustomUserCreationForm(UserCreationForm):
 
     user_type = forms.ChoiceField(choices=UserProfile.USER_TYPE_CHOICES)
@@ -45,12 +54,13 @@ class CustomUserCreationForm(UserCreationForm):
             'first_name': 'First Name',
             'last_name': 'Last name'
         }
-
+        
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'uk-input'})
+
 
 class RequestOfferForm(ModelForm):
     class Meta:

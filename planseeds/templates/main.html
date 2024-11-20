@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planning Seeds Web Application</title>
+    <title>Planning Seeds - Web App</title>
 
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
@@ -14,12 +14,12 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href='{% static "/styles/main.css" %}' />
+    <link rel="stylesheet" type="text/css" href='{% static "styles/main.css" %}' />
     <!--     <link rel="stylesheet" type="text/css" href='/plannseeds/static/styles/main.css' />
  -->
 </head>
 <body>
-    <nav class="uk-navbar-container uk-padding" uk-navbar>
+    <nav class="uk-container uk-padding uk-navbar" uk-navbar>
         <div class="uk-navbar-left">
             <h2><a href="/"><img width="200" src="/media/images/planningSeeds_logo.png" /></a></h2>
         </div>
@@ -64,8 +64,19 @@
 
         {% endblock content %}
     </div>
-    <div class="uk-section uk-section-primary footer uk-margin-medium-top">
-
+    <div class="uk-section footer uk-margin-medium-top">
+        <div class="uk-container">
+            <div class="uk-grid-small" uk-grid>
+                <div class="uk-width-1-4">
+                    <img src="/media/images/co-funded.png" alt="European Union" />
+                </div>
+                <div class="uk-width-3-4">
+                    <p class="small-text">
+                        Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor EACEA can be held responsible for them.
+                    </p>
+                    <p class="small-text">Copyright &copy; 2024 Planning Seeds. All rights reserved. <a>Privacy Policy</a></p>
+                </div>
+        </div>
     </div>
 </body>
 </html>
