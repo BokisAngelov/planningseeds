@@ -15,25 +15,27 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href='{% static "styles/main.css" %}' />
+    <script src='{% static "js/main.js" %}'></script>
     <!--     <link rel="stylesheet" type="text/css" href='/plannseeds/static/styles/main.css' />
  -->
 </head>
 <body>
     <nav class="uk-container uk-padding uk-navbar" uk-navbar>
         <div class="uk-navbar-left">
-            <h2><a href="/"><img width="200" src="/media/images/planningSeeds_logo.png" /></a></h2>
+            <a href="/"><img width="200" src="/media/images/planningSeeds_logo.png" /></a>
         </div>
         <div class="uk-navbar-right">
-            <ul class="uk-navbar-nav" uk-nav="multiple: true">
-                <li class=""><a href="/how-it-works">How it works</a></li>
-                <li class=""><a href="/about">About</a></li>
-                <li class=""><a href="{% url 'products-list' %}">Products</a></li>
-                <li><a href="{% url 'userprofiles' %}">Producers</a></li>
+            <ul class="uk-navbar-nav uk-visible@m" uk-nav="multiple: true">
+                <li class="{% if request.path == '/how-it-works/' %}uk-active{% endif %}"><a href="/how-it-works">How it works</a></li>
+                <li class="{% if request.path == '/about/' %}uk-active{% endif %}"><a href="/about">About</a></li>
+                <li class="{% if request.path == '/products-list/' %}uk-active{% endif %}"><a href="{% url 'products-list' %}">Products</a></li>
+                <li class="{% if request.path == '/profiles/' %}uk-active{% endif %}"><a href="{% url 'userprofiles' %}">Producers</a></li>
                 {% if request.user.is_authenticated %}
-                <li class="uk-parent"><a href="#"><span uk-icon="user"> </span>Hi {{ request.user.userprofile.first_name }},</span> <span uk-nav-parent-icon></span></a>
+                <li class="uk-parent">
+                    <a href="#"><span uk-icon="user"> </span>Hi {{ request.user.userprofile.first_name }},</span> <span uk-nav-parent-icon></span></a>
                     <div uk-dropdown="mode: click">
                         <ul class="uk-nav-sub">
-                            <li><a href="{% url 'user-profile' request.user.userprofile.id %}">My profile</a></li>
+                            <li class=""><a href="{% url 'user-profile' request.user.userprofile.id %}">My profile</a></li>
                             {% if request.user.is_authenticated and request.user.userprofile.user_type == 'producer' %}
                             <li ><a href="{% url 'create-product' %}">Add new product</a></li>
                             {% endif %}
@@ -47,7 +49,37 @@
                 <li><a href="{% url 'login' %}">Login/Sign Up <span uk-icon="user"></span></a></li>
                 {% endif %}
             </ul>
+            <button class="uk-hidden@m uk-button uk-button-primary uk-margin-small-right" type="button" uk-toggle="target: #offcanvas-nav-primary">Slide</button>
+            <div class="uk-hidden@m" id="offcanvas-nav-primary" uk-offcanvas="overlay: true">
+                <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+                    <a class="uk-text-center uk-margin-top" href="/"><img width="200" src="/media/images/planningSeeds_logo.png" /></a>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+                        <li class=""><a href="/how-it-works">How it works</a></li>
+                        <li class=""><a href="/about">About</a></li>
+                        <li class=""><a href="{% url 'products-list' %}">Products</a></li>
+                        <li><a href="{% url 'userprofiles' %}">Producers</a></li>
+                        {% if request.user.is_authenticated %}
+                        <li class="uk-parent">
+                            <a href="#"><span uk-icon="user"> </span>Hi {{ request.user.userprofile.first_name }},</span> <span uk-nav-parent-icon></span></a>
+                            <div uk-dropdown="mode: click">
+                                <ul class="uk-nav-sub">
+                                    <li><a href="{% url 'user-profile' request.user.userprofile.id %}">My profile</a></li>
+                                    {% if request.user.is_authenticated and request.user.userprofile.user_type == 'producer' %}
+                                    <li ><a href="{% url 'create-product' %}">Add new product</a></li>
+                                    {% endif %}
+                                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                        {% else %}
+                        <li><a href="{% url 'login' %}">Login/Sign Up <span uk-icon="user"></span></a></li>
+                        {% endif %}
+                    </ul>
             
+                </div>
+            </div>
         </div>
     </nav>
     <div class="uk-container uk-margin-medium-top" uk-height-viewport="expand: true">
@@ -67,14 +99,14 @@
     <div class="uk-section footer uk-margin-medium-top">
         <div class="uk-container">
             <div class="uk-grid-small" uk-grid>
-                <div class="uk-width-1-4">
-                    <img src="/media/images/co-funded.png" alt="European Union" />
+                <div class="uk-width-1-4@m">
+                    <img style="max-width: 100%; width: 290px;" src="/media/images/co-funded.png" alt="European Union" />
                 </div>
-                <div class="uk-width-3-4">
+                <div class="uk-width-3-4@m">
                     <p class="small-text">
                         Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor EACEA can be held responsible for them.
                     </p>
-                    <p class="small-text">Copyright &copy; 2024 Planning Seeds. All rights reserved. <a>Privacy Policy</a></p>
+                    <p class="small-text">Copyright &copy; 2024 Planning Seeds. All rights reserved. <a href="{% url 'privacy-policy' %}">Privacy Policy</a></p>
                 </div>
         </div>
     </div>

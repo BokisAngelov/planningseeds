@@ -5,6 +5,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Product, Request, UserProfile, Offer
 from django_countries.fields import CountryField
+from django.contrib.auth.forms import PasswordResetForm
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'uk-input', 'placeholder': 'Enter your email address'}))
 
 class ProductForm(ModelForm):
     class Meta:

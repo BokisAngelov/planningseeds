@@ -12,6 +12,11 @@ h2, h3, h4{
     color: #727272;
 }
 a{
+    color: #ea6003;
+    transition: all .3s;
+}
+a:hover{
+    text-decoration: none;
     color: #712986;
 }
 .small-text{
@@ -51,6 +56,13 @@ a{
 .uk-card-default{
     box-shadow: 0 12px 17px 0px rgba(0,0,0,0.20);
     border-radius: 14px;
+    transition: all .3s;
+    position: relative;
+    top: 0;
+}
+.uk-card-default:hover{
+    box-shadow: 0 12px 17px 0px rgba(0,0,0,0.30);
+    top: -2px;
 }
 .uk-slider-container{
     overflow-y: visible;
@@ -64,7 +76,7 @@ a{
 }
 .products-grid h3 a{
     color: #727272;
-    transition: all .2s;
+    transition: all .3s;
 }
 .products-grid h3 a:hover{
     color: #ea6003;
@@ -101,4 +113,30 @@ form label{
 .uk-position-center-left.uk-icon:not(.uk-preserve) [stroke*="#"]:not(.uk-preserve){
     stroke: #ea6003!important;
     stroke-width: 3px;
+}
+.uk-offcanvas-bar{
+    background-color: #fff;
+}
+.uk-offcanvas-bar .uk-nav-primary > li > a,
+.uk-offcanvas-bar .uk-nav-primary .uk-nav-sub a{
+    color: #ea6003
+}
+.uk-offcanvas-bar .uk-nav-primary > li > a:hover,
+.uk-offcanvas-bar .uk-nav-primary .uk-nav-sub a:hover{
+    color: #712986;
+}
+
+@media (max-width: 960px) {
+    .filter-div{
+        margin-top: 0!important;
+    }
+    .filter-btn{
+        margin: 0!important;
+    }
+    #country-form label,
+    #category-form label{
+        display: inline-block!important;
+        margin-right: 10px;
+        margin-bottom: 0!important;
+    }
 }

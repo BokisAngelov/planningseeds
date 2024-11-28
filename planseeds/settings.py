@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -116,9 +119,20 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('it', 'Italian'),
+    ('fr', 'French'),
+    ('el', 'Greek'),
+    ('ro', 'Romanian'),
+]
+# Path for translation files
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',  
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -136,3 +150,12 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'mail.planningseeds.eu'
+EMAIL_PORT = 587  # TLS port
+EMAIL_USE_TLS = True  # TLS is for port 587
+EMAIL_USE_SSL = False  # Disable SSL
+EMAIL_HOST_USER = 'info@planningseeds.eu'
+EMAIL_HOST_PASSWORD = '?][2vrJnRrqv'
+
+

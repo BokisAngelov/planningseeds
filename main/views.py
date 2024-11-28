@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -11,13 +11,50 @@ from django.template.loader import render_to_string
 import openpyxl
 import os
 import pycountry
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from .utils import token_generator
 
+User = get_user_model()
+
+def send_verification_email(user, request):
+    token = token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    verification_link = request.build_absolute_uri(f"/verify-email/{uid}/{token}/")
+    subject = "Verify your email"
+    message = render_to_string('main/email_verification_template.html', {
+        'user': user,
+        'verification_link': verification_link
+    })
+
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
+
+def verify_email(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user and token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, "Welcome, your email has been verified!")
+        login(request, user)
+        return redirect('homepage')
+    else:
+        messages.error(request, "The verification link is invalid or has expired.")
+        return redirect('register')
 
 def about(request):
     return render(request, 'main/about.html')
 
 def howWorks(request):
     return render(request, 'main/how_works.html')
+
+def privacyPolicy(request):
+    return render(request, 'main/privacy_policy.html')
 
 def homepage(request):
     producers = UserProfile.objects.filter(user_type='producer')[:8]
@@ -28,6 +65,8 @@ def homepage(request):
         'products': products,
     }
     return render(request, 'main/home.html', context)
+
+
 
 def product_list(request):
     products = Product.objects.order_by('-created')
@@ -192,6 +231,7 @@ def registerUser(request):
                 # Add all error messages to messages.error
                 messages.error(request, " ".join(error_messages))
             else:
+                user.is_active = False
                 user.save()
                 UserProfile.objects.update_or_create(
                     user=user,
@@ -202,8 +242,10 @@ def registerUser(request):
                         'country': form.cleaned_data.get('country'),
                     }
                 )
-                messages.success(request, 'Account was created successfully!')
-                login(request, user)
+                
+                send_verification_email(user, request)
+                messages.success(request, 'A verification link has been sent to your email!')
+                
                 return redirect('/')
         else:
             # Handle form.errors

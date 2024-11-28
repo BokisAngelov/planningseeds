@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 import uuid
 import datetime
 from django_countries.fields import CountryField
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _lazy
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -35,7 +37,7 @@ class UserProfile(models.Model):
     
     
 class Product(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name=_("Name"))
     description = models.TextField(null=True, blank=False) # null for db blank for django
     category = models.ManyToManyField('Categories', blank=False)
     quantity = models.PositiveIntegerField(default=0, null=True, blank=True)

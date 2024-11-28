@@ -5,14 +5,14 @@
 
 <div class="uk-container">
     <div class="uk-grid-small" id="sticky-div" uk-grid>
-        <div class="uk-width-1-4">
-            <a class="uk-button uk-button-primary uk-margin" href="{% url 'products-list' %}">Reset Filters</a>
+        <div class="uk-width-1-4@m">
+            <a class="uk-button uk-button-primary uk-margin filter-btn" href="{% url 'products-list' %}">Reset Filters</a>
             <div class="uk-card uk-padding-remove-left">
                 <div class="uk-card-header uk-padding-remove-left uk-padding-remove-bottom">
-                    <h3 class="uk-card-title">Categories</h3>
+                    <h3 class="uk-card-title">Categories <a class="uk-hidden@m" uk-toggle="target: #category-form; animation: uk-animation-fade"><span uk-icon="chevron-down"></span></a></h3>
                 </div>
-                <div class="uk-card-body uk-padding-remove-left uk-padding-remove-top uk-margin-top">
-                    <form id="category-form">
+                <div class="uk-card-body uk-padding-remove-left uk-padding-remove-top uk-margin-top filter-div">
+                    <form id="category-form" uk-toggle="cls: uk-visible; mode: media; media: @l">
                         {% for category in categories %}
                             <label style="display: block;" class="uk-margin ">
                                 <input type="checkbox" class="category-checkbox uk-checkbox" name="category" value="{{ category.id }}" />
@@ -22,12 +22,12 @@
                     </form>
                 </div>
             </div>
-            <hr>
+            <hr class="uk-visible@m">
             <div class="uk-card uk-padding-remove-left">
                 <div class="uk-card-header uk-padding-remove-left uk-padding-remove-bottom">
-                    <h3 class="uk-card-title">Countries</h3>
+                    <h3 class="uk-card-title">Countries <a class="uk-hidden@m" uk-toggle="target: #country-form"><span uk-icon="chevron-down"></span></a></h3>
                 </div>
-                <div class="uk-card-body uk-padding-remove-left uk-padding-remove-top uk-margin-top">
+                <div class="uk-card-body uk-padding-remove-left uk-padding-remove-top uk-margin-top filter-div">
                     <form id="country-form">
                         {% for country in countries %}
                             <label style="display: block;" class="uk-margin ">
@@ -41,8 +41,8 @@
             </div>
         </div>
 
-        <div class="uk-width-3-4">
-            <div id="product-list" class="uk-child-width-1-3 uk-grid uk-grid-match products-grid" uk-grid>
+        <div class="uk-width-3-4@m">
+            <div id="product-list" class="uk-child-width-1-3@l uk-child-width-1-2@s uk-grid uk-grid-match products-grid" uk-grid>
                 {% include 'main/product_filter_grid.html' %}
             </div>
         </div>

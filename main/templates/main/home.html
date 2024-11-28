@@ -4,8 +4,8 @@
 
 <div class="uk-container">
 
-    <div class="uk-grid uk-margin-large-top uk-margin-large-bottom" uk-grid>
-        <div class="uk-width-1-2">
+    <div class="uk-grid uk-margin-top uk-margin-large-bottom uk-flex uk-flex-middle" uk-grid>
+        <div class="uk-width-1-2@l uk-width-2-3@m">
             <h1 class="uk-h1">Welcome to the planning seeds web application</h1>
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
             
@@ -13,7 +13,7 @@
                 <a class="uk-button uk-button-primary uk-text-center" href="{% url 'register' %}">Create an account</a>        
             {% endif %}
         </div>
-        <div class="uk-width-1-2">
+        <div class="uk-width-1-2@l uk-width-1-3@m">
             <img src="/media/images/introImage.png" alt="Welcome to Planning Seeds web application" />
         </div>
     </div>
@@ -24,12 +24,14 @@
     <h2 class="">Recent Products</h2>
 
     <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
-        <div class="uk-slider-items uk-child-width-1-4 uk-grid products-grid" uk-grid>
+        <div class="uk-slider-items uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s uk-grid products-grid" uk-grid>
             {% for product in products %}
                 <div>
                     <div class="uk-card uk-card-default uk-card-body">
                         {% if product.image %}
+                        <div class="uk-text-center">
                             <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </div>
                         {% endif %}
                         <h3><a href="{% url 'product' product.id %}">{{ product.name }}</a></h3>
                         {% for category in product.category.all %}
