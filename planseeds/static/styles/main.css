@@ -11,11 +11,12 @@ h1{
 h2, h3, h4{
     color: #727272;
 }
-a{
+a, .uk-link{
     color: #ea6003;
     transition: all .3s;
 }
-a:hover{
+a:hover,
+.uk-link:hover{
     text-decoration: none;
     color: #712986;
 }
@@ -140,3 +141,35 @@ form label{
         margin-bottom: 0!important;
     }
 }
+
+.uk-table,
+.uk-table th{
+    text-align: center;
+}
+.uk-table tbody{
+    position: relative;
+}
+.uk-table tbody tr{
+    border-bottom: 1px solid #eee;
+}
+.uk-table thead tr,
+.uk-table tbody tr:last-child{
+    border: none;
+}
+.uk-table tbody::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #424242;
+    border-radius: 10px;
+    left: 0;
+    top: 0;
+    z-index: -1;
+ }
+ .uk-select{
+    display: inline-block;
+    width: auto;
+    border-radius: 8px;
+    border-color: #ea6003;
+ }

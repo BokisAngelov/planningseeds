@@ -49,7 +49,7 @@
                 <li><a href="{% url 'login' %}">Login/Sign Up <span uk-icon="user"></span></a></li>
                 {% endif %}
             </ul>
-            <button class="uk-hidden@m uk-button uk-button-primary uk-margin-small-right" type="button" uk-toggle="target: #offcanvas-nav-primary">Slide</button>
+            <button class="uk-hidden@m uk-button uk-button-primary uk-margin-small-right" type="button" uk-toggle="target: #offcanvas-nav-primary">MENU</button>
             <div class="uk-hidden@m" id="offcanvas-nav-primary" uk-offcanvas="overlay: true">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column">
                     <a class="uk-text-center uk-margin-top" href="/"><img width="200" src="/media/images/planningSeeds_logo.png" /></a>
@@ -82,7 +82,7 @@
             </div>
         </div>
     </nav>
-    <div class="uk-container uk-margin-medium-top" uk-height-viewport="expand: true">
+    <div class="uk-container uk-margin-medium" uk-height-viewport="expand: true">
 
         {% if messages %}
             <div class="messages">
@@ -96,7 +96,8 @@
 
         {% endblock content %}
     </div>
-    <div class="uk-section footer uk-margin-medium-top">
+    <hr>
+    <div class="uk-section footer uk-padding-small">
         <div class="uk-container">
             <div class="uk-grid-small" uk-grid>
                 <div class="uk-width-1-4@m">

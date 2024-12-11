@@ -5,5 +5,6 @@ $(document).ready(function(){
         $('#country-form, #category-form').attr('hidden', 'hidden');
     }
 
-    console.log("Document ready");
+        
+    
 });

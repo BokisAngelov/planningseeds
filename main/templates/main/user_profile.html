@@ -5,7 +5,7 @@
 <div class="uk-card uk-card-default uk-padding uk-width-2xlarge">
     {% if is_owner %}
     <div class="uk-margin-small">
-        <a class="link-text" href="{% url 'edit-user' %}"><span uk-icon="pencil"></span> Edit profile</a>
+        <a class="link-text" href="{% url 'edit-user' %}"><span uk-icon="icon: pencil; ratio: 0.8"></span> Edit profile</a>
     </div>
     {% endif %}
     <div class="uk-grid">
@@ -39,7 +39,7 @@
 
 {% if products %}
 <h2>Recent Products</h2>
-<div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
+<div class="uk-position-relative uk-visible-toggle uk-margin-large-bottom" tabindex="-1" uk-slider>
     <div class="uk-slider-items uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s uk-grid products-grid" uk-grid>
         {% for product in products %}
             <div>
@@ -52,10 +52,16 @@
                         <span class="category-span">#{{category}}</span><br>
                     {% endfor %}
                     <p>{{ product.producer.country.name }}</p>
-                    {% if request.user.is_authenticated and request.user.userprofile.owner.id == request.user.userprofile.id %}
-                    <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
-                    <a class="uk-link" href="{% url 'product' product.id %}">View</a>
-                    <a class="uk-link" href="{% url 'delete-product' product.id %}">Delete</a>
+                    {% if request.user.is_authenticated and is_owner %}
+                    <hr>
+                    <div class="uk-grid-small" uk-grid>
+                        <div class="uk-width-1-2">
+                            <a class="uk-link" href="{% url 'update-product' product.id %}"><span uk-icon="icon:pencil; ratio:0.8"></span> Edit</a>
+                        </div>
+                        <div class="uk-width-1-2">
+                            <a class="uk-link" href="{% url 'delete-product' product.id %}"><span uk-icon="icon:trash; ratio:0.8"></span> Delete</a>
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
             </div>
@@ -70,8 +76,8 @@
 
 <!-- for producers -->
 {% if is_owner and requestsFrom %}
-<h2 class="uk-margin">My Requests</h2>
-<label for="request-status-filter">Filter by status:</label>
+<h3 class="uk-margin">My Requests</h3>
+<!-- <label for="request-status-filter">Filter by status:</label> -->
 <select id="request-status-filter" class="uk-select">
     <option value="">All</option>
     <option value="Pending">Pending</option>
@@ -80,22 +86,22 @@
     <option value="In-progress">In-progress</option>
 </select>
 
-<div id="requests-table-container">
+<div id="requests-table-container" class="uk-margin-medium-bottom">
     <!-- Table content will be inserted here via JavaScript -->
 </div>
 
 {% if send_invoices %}
-<h2 class="uk-margin">My Invoices</h2>
-<label for="invoices-status-filter">Filter by status:</label>
+<h3 class="uk-margin">My Invoices</h3>
+<!-- <label for="invoices-status-filter">Filter by status:</label> -->
 <select id="invoices-status-filter" class="uk-select">
     <option value="">All</option>
     <option value="Accepted">Accepted</option>
     <option value="Sent">Sent</option>
 </select>
 
-<div>
+<div class="uk-margin-medium-bottom">
     <div class="uk-container">
-        <table class="uk-table uk-table-striped">
+        <table class="uk-table">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -120,8 +126,8 @@
 
 {% if is_owner and offers %}
 <div class="uk-container uk-margin">
-    <h2>My Offers</h2>
-    <label for="offers-status-filter">Filter by status:</label>
+    <h3>My Offers</h3>
+    <!-- <label for="offers-status-filter">Filter by status:</label> -->
     <select id="offers-status-filter" class="uk-select">
         <option value="">All</option>
         <option value="Accepted">Accepted</option>
@@ -130,7 +136,7 @@
     </select>
     <div>
     
-        <table class="uk-table uk-table-striped">
+        <table class="uk-table">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -156,10 +162,10 @@
 
 <!-- for customer -->
 {% if is_owner and requestsTo %}
-<div class="uk-container">
-<h2 class="uk-margin">My Requests</h2>
+<div class="uk-container uk-margin-medium-bottom">
+<h3 class="uk-margin">My Requests</h3>
 
-<label for="request-customer-status-filter">Filter by status:</label>
+<!-- <label for="request-customer-status-filter">Filter by status:</label> -->
 <select id="request-customer-status-filter" class="uk-select">
     <option value="">All</option>
     <option value="Pending">Pending</option>
@@ -168,7 +174,7 @@
     <option value="In-progress">In-progress</option>
 </select>
 
-<table class="uk-table uk-table-striped">
+<table class="uk-table">
     <thead>
         <tr>
             <th>Date</th>
@@ -198,9 +204,9 @@
 {% endif %}
 
 {% if is_owner and received_offers %}
-<div class="uk-container">
-<h2 class="uk-margin">Pending Offers</h2>
-<table class="uk-table uk-table-striped">
+<div class="uk-container uk-margin-medium-bottom">
+<h3 class="uk-margin">Pending Offers</h3>
+<table class="uk-table">
     <thead>
         <tr>
             <th>Date</th>
@@ -239,9 +245,9 @@
 </table>
 </div>
 
-<div class="uk-container">
-    <h2 class="uk-margin">Accepted Offers</h2>
-    <table class="uk-table uk-table-striped">
+<div class="uk-container uk-margin-medium-bottom">
+    <h3 class="uk-margin">Accepted Offers</h3>
+    <table class="uk-table">
         <thead>
             <tr>
                 <th>Date</th>
@@ -275,7 +281,7 @@
     </table>
 
     {% if received_invoices %}
-    <h2>Invoices</h2>
+    <h3>Invoices</h3>
     {% for inv in received_invoices %}
         {{inv.created}}
         {{inv.invoice_file}}<br>
@@ -287,13 +293,19 @@
 <script>
     $(document).ready(function(){
         // Initial load of all requests
-        var currentUserId = "{{ request.user.id }}";  // Logged-in user's ID
-        var profId = "{{ user.id }}";  // Profile being viewed
+        var currentUser = "{{ request.user }}";  // Logged-in user's ID
+        var profileUser = "{{ user }}";  // Profile being viewed
+
+        if (currentUser == profileUser) {
+            offersFilters("");
+            loadRequests("");
+            invoiceFilters("");
+        }
         
         $('.accept-offer').on('click', function(e){
             e.preventDefault();
             var offerId = $(this).data('offer-id');
-            // console.log("Offer ID: ", offerId);
+
             var url = "{% url 'accept-offer' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', offerId);
             $.ajax({
                 url: url,
@@ -350,16 +362,7 @@
                     alert('An error occurred while filtering the requests.');
                 }
             });
-        }
-
-        
-
-        if (currentUserId == profId) {
-            loadRequests('');
-            invoiceFilters('');
-            offersFilters('');
-        }
-        
+        }        
 
         // Event listener for the dropdown filter
         $('#request-status-filter').change(function() {
@@ -416,7 +419,7 @@
 
         $('#offers-status-filter').change(function() {
             var selectedStatus = $(this).val();
-            console.log("Selected status:", selectedStatus); // Debugging line
+            // console.log("Selected status:", selectedStatus); // Debugging line
             offersFilters(selectedStatus);
         });
 

@@ -12,8 +12,8 @@
         <div class="uk-width-2-3">
             {% if request.user.is_authenticated and request.user.userprofile == productObj.producer %}
             <div>
-                <a class="uk-link" href="{% url 'update-product' productObj.id %}">Edit</a>
-                <a class="uk-link" href="{% url 'delete-product' productObj.id %}">Delete</a>
+                <a class="uk-link" href="{% url 'update-product' productObj.id %}"><span uk-icon="icon:pencil; ratio:0.8"></span> Edit</a>
+                <a class="uk-link" href="{% url 'delete-product' productObj.id %}"><span uk-icon="icon:trash; ratio:0.8"></span> Delete</a>
             </div>
             {% endif %}
             <h3 class="uk-margin-small-top uk-margin-small-bottom">{{productObj.name}}</h3>
