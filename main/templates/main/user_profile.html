@@ -76,94 +76,95 @@
 
 <!-- for producers -->
 {% if is_owner and requestsFrom %}
-<h3 class="uk-margin">My Requests</h3>
-<!-- <label for="request-status-filter">Filter by status:</label> -->
-<select id="request-status-filter" class="uk-select">
-    <option value="">All</option>
-    <option value="Pending">Pending</option>
-    <option value="Accepted">Accepted</option>
-    <option value="Rejected">Rejected</option>
-    <option value="In-progress">In-progress</option>
-</select>
-
-<div id="requests-table-container" class="uk-margin-medium-bottom">
-    <!-- Table content will be inserted here via JavaScript -->
-</div>
-
-{% if send_invoices %}
-<h3 class="uk-margin">My Invoices</h3>
-<!-- <label for="invoices-status-filter">Filter by status:</label> -->
-<select id="invoices-status-filter" class="uk-select">
-    <option value="">All</option>
-    <option value="Accepted">Accepted</option>
-    <option value="Sent">Sent</option>
-</select>
-
-<div class="uk-margin-medium-bottom">
-    <div class="uk-container">
-        <table class="uk-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Product</th>
-                    <th>Total Price</th>
-                    <th>Customer</th>
-                    <th>File</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="invoices-table-container">  
-                {% include 'main/invoices_filter_table.html' %}
-            </tbody>
-        </table>
-    </div>     
-</div>
-
-
-{% endif %}
-
-{% endif %}
-
-{% if is_owner and offers %}
-<div class="uk-container uk-margin">
-    <h3>My Offers</h3>
-    <!-- <label for="offers-status-filter">Filter by status:</label> -->
-    <select id="offers-status-filter" class="uk-select">
+    <h3 class="uk-margin">My Requests</h3>
+    <!-- <label for="request-status-filter">Filter by status:</label> -->
+    <select id="request-status-filter" class="uk-select">
         <option value="">All</option>
+        <option value="Pending">Pending</option>
         <option value="Accepted">Accepted</option>
-        <option value="Declined">Declined</option>
+        <option value="Rejected">Rejected</option>
         <option value="In-progress">In-progress</option>
     </select>
-    <div>
-    
-        <table class="uk-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Customer</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total Price</th>
-                    <td>Action</td>
-                </tr>
-            </thead>
-            <tbody id="offers-table-container">  
-                {% include 'main/offers_filter_table.html' %}
-            </tbody>
-        </table>
+
+    <div id="requests-table-container" class="uk-margin-medium-bottom">
+        <!-- Table content will be inserted here via JavaScript -->
     </div>
-</div>
+
+    {% if offers %}
+    <div class="uk-container uk-margin-medium-bottom">
+        <h3>My Offers</h3>
+        <!-- <label for="offers-status-filter">Filter by status:</label> -->
+        <select id="offers-status-filter" class="uk-select">
+            <option value="">All</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Declined">Declined</option>
+            <option value="In-progress">In-progress</option>
+        </select>
+        <div>
+        
+            <table class="uk-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody id="offers-table-container">  
+                    {% include 'main/offers_filter_table.html' %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if send_invoices %}
+    <h3 class="">My Invoices</h3>
+    <!-- <label for="invoices-status-filter">Filter by status:</label> -->
+    <div class="uk-margin-medium-bottom">
+        <div class="uk-container">
+            <table class="uk-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th>Total Price</th>
+                        <th>Customer</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody id="invoices-table-container">  
+                    {% for inv in send_invoices %}
+                    <tr>
+                        <td>{{inv.created}}</td>
+                        <td>{{inv.offer.request.product.name}}</td>
+                        <td>{{inv.offer.total_price}}</td>
+                        <td>{{inv.offer.request.user}}</td>
+                        <td><a target="_blank" href="{{inv.invoice_file}}" download>Download Invoice</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>     
+    </div>
+    {% endif %}
+
 {% endif %}
+
+
 
 
 <!-- //////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <!-- for customer -->
 {% if is_owner and requestsTo %}
-<div class="uk-container uk-margin-medium-bottom">
-<h3 class="uk-margin">My Requests</h3>
+<div class="uk-container uk-margin-large-top">
+<h3>My Requests</h3>
 
 <!-- <label for="request-customer-status-filter">Filter by status:</label> -->
 <select id="request-customer-status-filter" class="uk-select">
@@ -186,26 +187,16 @@
             
         </tr>
     </thead>
-    <tbody>  
-    {% for request in requestsTo %}
-        <tr>
-            <td>{{request.created}}</td>
-            <td> <a href="{% url 'product' request.product.id %}">{{ request.product.name }}</a></td>
-            <td> <a href="{% url 'user-profile' request.product.producer.id %}">{{ request.product.producer }}</a></td>
-            <td>{{ request.quantity }}</td>
-            <td> {{request.additional_notes}}</td>
-            <td>{{ request.status }}</td>
-            <td></td>
-        </tr>
-    {% endfor %}
+    <tbody id="customer-requests-table-container">  
+        {% include 'main/requests_customer_filter_table.html' %}
     </tbody>
 </table>
 </div>
 {% endif %}
 
 {% if is_owner and received_offers %}
-<div class="uk-container uk-margin-medium-bottom">
-<h3 class="uk-margin">Pending Offers</h3>
+<div class="uk-container uk-margin-large-top">
+<h3 >Pending Offers</h3>
 <table class="uk-table">
     <thead>
         <tr>
@@ -235,8 +226,8 @@
             <td>{{offer.unit_price}}</td>
             <td>{{ offer.total_price }}</td>
             {% if offer.status != 'Accepted' %}
-            <td><a href="#" class="accept-offer" data-offer-id="{{offer.id}}">Accept</a></td>
-            <td><a href="#" class="reject-offer" data-offer-id="{{offer.id}}">Reject</a></td>
+            <td><a href="#" class="accept-offer" data-offer-id="{{offer.id}}" data-status="Accepted">Accept</a></td>
+            <td><a href="#" class="reject-offer" data-offer-id="{{offer.id}}" data-status="Rejected">Reject</a></td>
             {% endif %}
         </tr>
         {% endif %}
@@ -245,8 +236,8 @@
 </table>
 </div>
 
-<div class="uk-container uk-margin-medium-bottom">
-    <h3 class="uk-margin">Accepted Offers</h3>
+<div class="uk-container uk-margin-large-top">
+    <h3 >Accepted Offers</h3>
     <table class="uk-table">
         <thead>
             <tr>
@@ -281,11 +272,28 @@
     </table>
 
     {% if received_invoices %}
-    <h3>Invoices</h3>
-    {% for inv in received_invoices %}
-        {{inv.created}}
-        {{inv.invoice_file}}<br>
-    {% endfor %}
+    <h3 class="uk-margin-large-top">My Invoices</h3>
+    <table class="uk-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Producer</th>
+                <th>Product</th>
+                <th>Invoice</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inv in received_invoices %}
+            <tr>
+                <td>{{inv.created}}</td>
+                <td><a href="{% url 'user-profile' inv.offer.producer.id %}">{{inv.offer.producer}}</a></td>
+                <td> <a href="{% url 'product' inv.offer.request.product.id %}">{{ inv.offer.request.product.name }}</a></td>
+                <td><a href="{{ inv.invoice_file }}" target="_blank" download>Download</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>    
+    </table>
+    
     {% endif %}
 
     </div>
@@ -299,12 +307,15 @@
         if (currentUser == profileUser) {
             offersFilters("");
             loadRequests("");
-            invoiceFilters("");
+            // invoiceFilters("");
+            customerRequests("");
+
         }
         
-        $('.accept-offer').on('click', function(e){
+        $('.accept-offer, .reject-offer').on('click', function(e){
             e.preventDefault();
             var offerId = $(this).data('offer-id');
+            let offer_status = $(this).data('status');
 
             var url = "{% url 'accept-offer' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', offerId);
             $.ajax({
@@ -312,7 +323,7 @@
                 method: 'POST',
                 data: {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'answer-status': 'Accepted'
+                    'answer-status': offer_status
                 },
                 success: function(response) {
                     location.reload();
@@ -322,27 +333,6 @@
                 }
             });
         });
-        $('.reject-offer').on('click', function(e){
-            e.preventDefault();
-            var offerId = $(this).data('offer-id');
-            // console.log("Offer ID: ", offerId);
-            var url = "{% url 'accept-offer' '00000000-0000-0000-0000-000000000000' %}".replace('00000000-0000-0000-0000-000000000000', offerId);
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'answer-status': 'Rejected'
-                },
-                success: function(response) {
-                    location.reload();
-                },
-                error: function(response) {
-                    alert('An error occurred while rejecting the offer.');
-                }
-            });
-        });
-
         // Function to load requests based on the selected status
         function loadRequests(status) {
             var profileId = "{{ user.id }}";  // Ensure this value is properly set
@@ -371,30 +361,30 @@
             loadRequests(selectedStatus);
         });
 
-        function invoiceFilters(status){
-            var url = '{% url "filter-invoices" %}';
-            $.ajax({
-                url: url,
-                method: 'GET',
-                data: {
-                    'status': status
-                },
-                success: function(response) {
-                    // console.log("Response received:", response); // Debugging line
-                    $('#invoices-table-container').html(response.html);
-                },
-                error: function(xhr, status, error) {
-                    console.log("Error:", error); // Debugging line
-                    alert('An error occurred while filtering the requests.');
-                }
-            });
-        }
+        // function invoiceFilters(status){
+        //     var url = '{% url "filter-invoices" %}';
+        //     $.ajax({
+        //         url: url,
+        //         method: 'GET',
+        //         data: {
+        //             'status': status
+        //         },
+        //         success: function(response) {
+        //             // console.log("Response received:", response); // Debugging line
+        //             $('#invoices-table-container').html(response.html);
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.log("Error:", error); // Debugging line
+        //             alert('An error occurred while filtering the requests.');
+        //         }
+        //     });
+        // }
 
-        $('#invoices-status-filter').change(function() {
-            var selectedStatus = $(this).val();
-            // console.log("Selected status:", selectedStatus); // Debugging line
-            invoiceFilters(selectedStatus);
-        });
+        // $('#invoices-status-filter').change(function() {
+        //     var selectedStatus = $(this).val();
+        //     // console.log("Selected status:", selectedStatus); // Debugging line
+        //     invoiceFilters(selectedStatus);
+        // });
 
         function offersFilters(status){
             var url = '{% url "filter-offers" %}';
@@ -422,6 +412,35 @@
             // console.log("Selected status:", selectedStatus); // Debugging line
             offersFilters(selectedStatus);
         });
+
+        function customerRequests(status){
+            var url = '{% url "filter-customer-requests" %}';
+
+            console.log(status);
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: {
+                    'status': status
+                },
+                success: function(response) {
+                    // console.log("Response received:", response); // Debugging line
+                    $('#customer-requests-table-container').html(response.html);
+                },
+                error: function(xhr, status, error) {
+                    // console.log("Error:", error); // Debugging line
+                    alert('An error occurred while filtering the requests.');
+                }
+            });
+        }
+
+        $('#request-customer-status-filter').change(function() {
+            var selectedStatus = $(this).val();
+            // console.log("Selected status:", selectedStatus); // Debugging line
+            customerRequests(selectedStatus);
+        });
+
+        
 
     });
 </script>

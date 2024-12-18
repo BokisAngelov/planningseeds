@@ -5,8 +5,9 @@
 <form action="" method="POST">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{object}}"?</p>
-    <a href="{% url 'product' object.id %}">Go back</a>
-    <input type="submit" value="Confirm" />
+    <!-- <a class="" href="{% url 'product' object.id %}">Go back</a> -->
+    <input class="uk-button uk-button-primary" type="submit" value="Confirm" />
+    <input type="button" class="uk-button uk-button-secondary" value="Go Back" onClick="javascript:history.go(-1);">
 </form>
 
 {% endblock %}

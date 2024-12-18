@@ -149,6 +149,19 @@ def filterOffers(request):
     html = render_to_string('main/offers_filter_table.html', {'offers': offers})
     return JsonResponse({'html': html})
 
+def filter_customer_requests(request):
+    status = request.GET.get('status')
+
+    if status:
+        requests = Request.objects.filter(status=status, user=request.user.userprofile)
+    else:
+        requests = Request.objects.filter(user=request.user.userprofile)
+        
+    requests = requests.distinct()
+    requests = requests.order_by('-created')
+
+    html = render_to_string('main/requests_customer_filter_table.html', {'requests': requests})
+    return JsonResponse({'html': html})
 
 def product(request, pk):
     productObj = Product.objects.get(id=pk)
@@ -509,51 +522,41 @@ def sendInvoice(request, offer_id):
     invoice_file_path = os.path.join(invoice_dir, invoice_filename)
     
     if request.method == 'POST':
-        if 'preview' in request.POST:
-            # Load the Excel template
-            template_path = os.path.join(settings.MEDIA_ROOT, 'docs', 'InvoiceTemplate.xlsx')
-            wb = openpyxl.load_workbook(template_path)
-            sheet = wb.active
+        # Load the Excel template
+        template_path = os.path.join(settings.MEDIA_ROOT, 'docs', 'InvoiceTemplate.xlsx')
+        wb = openpyxl.load_workbook(template_path)
+        sheet = wb.active
 
-            # Populate the template with offer data
-            sheet['A16'] = offer.request.product.name  # Set product name
-            sheet['F16'] = offer.quantity  # Set quantity
-            sheet['G16'] = offer.unit_price  # Set unit price
-            sheet['H16'] = offer.total_price  # Set total price
-            # sheet['B6'] = offer.delivery_timeline  # Set delivery timeline
+        # need to generate invoice number randomly 
 
-            # Add producer details to the invoice
-            producer = offer.producer
-            customer = offer.request.user
-            sheet['A1'] = producer.user.get_full_name()  # Producer's full name
-            sheet['A3'] = producer.user.email  # Producer's email
-            sheet['A4'] = producer.phone_number  # Producer's phone number (assuming this field exists)
-            sheet['A2'] = producer.address  # Producer's address (assuming this field exists)
-            sheet['B8'] = customer.user.get_full_name()
-            sheet['B9'] = customer.company_name
-            sheet['B10'] = customer.address
-            sheet['B12'] = customer.phone_number
+        # Populate the template with offer data
+        sheet['A16'] = offer.request.product.name  # Set product name
+        sheet['F16'] = offer.quantity  # Set quantity
+        sheet['G16'] = offer.unit_price  # Set unit price
+        sheet['H16'] = offer.total_price  # Set total price
+        # sheet['B6'] = offer.delivery_timeline  # Set delivery timeline
 
-            # Save the filled template as a new file for preview
-            wb.save(invoice_file_path)
+        # Add producer details to the invoice
+        producer = offer.producer
+        customer = offer.request.user
+        sheet['A1'] = producer.first_name + producer.last_name  # Producer's full name
+        sheet['A3'] = producer.user.email  # Producer's email
+        sheet['A4'] = producer.phone_number  # Producer's phone number (assuming this field exists)
+        sheet['A2'] = producer.address  # Producer's address (assuming this field exists)
+        sheet['A8'] = customer.first_name + customer.last_name
+        sheet['A9'] = customer.company_name
+        sheet['A10'] = customer.address
+        sheet['A12'] = customer.phone_number
 
-            # Render the preview page
-            return render(request, 'main/preview-invoice.html', {'offer': offer, 'invoice_file': invoice_filename})
+        # Save the filled template as a new file for preview
+        wb.save(invoice_file_path)
+        #  need to send email here with the document maybe attached
 
-        elif 'submit' in request.POST:
-            # Save the invoice to the database
-            invoice = Invoice.objects.create(offer=offer, invoice_file=invoice_file_path)
+        # Save the invoice to the database
+        create_invoice_record = Invoice.objects.create(offer=offer, invoice_file=invoice_file_path)
 
-            # Redirect to a success page or back to the profile
-            return redirect('user-profile', pk=request.user.userprofile.id)
-        
-        # elif 'cancel' in request.POST:
-        #     # Delete the invoice from the database
-        #     invoice = Invoice.objects.get(offer=offer)
-        #     invoice.delete()
-
-            # Redirect to a success page or back to the profile
-            return redirect('user-profile', pk=request.user.userprofile.id)
-
+        messages.success(request, 'You have sent the invoice successfully!')
+        # Redirect to a success page or back to the profile
+        return redirect('user-profile', pk=request.user.userprofile.id)
 
     return render(request, 'main/send-invoice.html', {'offer': offer})

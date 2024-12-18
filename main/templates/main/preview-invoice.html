@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="uk-container">
-    <h2>Preview Invoice for {{ offer.request.product.name }}</h2>
+    <h1>Preview Invoice for "{{ offer.request.product.name }}"</h1>
     <p>Quantity: {{ offer.quantity }}</p>
     <p>Unit Price: {{ offer.unit_price }}</p>
     <p>Total Price: {{ offer.total_price }}</p>
@@ -11,15 +11,15 @@
 
     <h3 class="uk-margin-top">Invoice Preview:</h3>
     <a href="{{ MEDIA_URL }}docs/{{ invoice_file }}" target="_blank" class="uk-button uk-button-primary">Open Invoice in New Tab</a>
-    <a href="{{ MEDIA_URL }}docs/{{ invoice_file }}" download="{{ invoice_file }}" class="uk-button uk-button-default">Download Invoice</a>
+    <a href="{{ MEDIA_URL }}docs/{{ invoice_file }}" download="{{ invoice_file }}" class="uk-button uk-button-primary">Download Invoice</a>
 
-    <iframe src="{{ MEDIA_URL }}docs/{{ invoice_file }}" width="100%" height="500px"></iframe>
+    <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ MEDIA_URL }}docs/{{ invoice_file }}" width="100%" height="500px"></iframe>
 
     <form method="POST" action="{% url 'send-invoice' offer.id %}" class="uk-margin-top">
         {% csrf_token %}
         <button type="submit" name="submit" class="uk-button uk-button-primary">Confirm and Send Invoice</button>
         <!-- <button type="submit" name="cancel" class="uk-button uk-button-primary" href="{% url 'send-invoice' offer.id %}">Go back and cancel Invoice</button> -->
-        <a href="{% url 'send-invoice' offer.id %}" class="uk-button uk-button-default">Go Back</a>
+        <a href="{% url 'send-invoice' offer.id %}" class="uk-button uk-button-secondary">Go Back</a>
     </form>
 </div>
 {% endblock %}

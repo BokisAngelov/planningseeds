@@ -42,13 +42,15 @@
 
 
 {% if request.user.userprofile.user_type == 'customer' %}
-<a class="uk-button uk-button-primary" href="{% url 'request-offer' productObj.id %}">Request an offer</a>
+<div class="uk-margin-large-top">
+    <a class="uk-button uk-button-primary" href="{% url 'request-offer' productObj.id %}">Request an offer</a>
+</div>
 {% endif %}
 
 <!-- For owner -->
 {% if request.user.is_authenticated and request.user.userprofile == productObj.producer and requestsTo %}
 <h2>Requests</h2>
-<table class="uk-table uk-table-striped">
+<table class="uk-table">
     <thead>
         <tr>
             <th>Date</th>
@@ -74,7 +76,7 @@
 
 {% if request.user.userprofile == productObj.producer and offers %}
 <h2>Offers</h2>
-<table class="uk-table uk-table-striped">
+<table class="uk-table">
     <thead>
         <tr>
             <th>Date</th>
@@ -103,7 +105,7 @@
 <!-- For customer -->
 {% if requestsFrom %}
 <h2>My Requests</h2>
-<table class="uk-table uk-table-striped">
+<table class="uk-table">
     <thead>
         <tr>
             <th>Date</th>

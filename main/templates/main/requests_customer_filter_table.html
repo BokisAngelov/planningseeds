@@ -1,0 +1,10 @@
+{% for request in requests %}
+<tr>
+    <td>{{ request.created }}</td>
+    <td><a href="{% url 'product' request.product.id %}">{{ request.product.name }}</a></td>
+    <td><a href="{% url 'user-profile' request.user.id %}">{{ request.user }}</a></td>
+    <td>{{ request.quantity }}</td>
+    <td>{{ request.additional_notes }}</td>
+    <td>{{ request.status }}</td>
+</tr>
+{% endfor %}

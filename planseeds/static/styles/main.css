@@ -145,6 +145,7 @@ form label{
 .uk-table,
 .uk-table th{
     text-align: center;
+    margin: 0;
 }
 .uk-table tbody{
     position: relative;

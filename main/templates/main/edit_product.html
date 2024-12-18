@@ -1,11 +1,12 @@
 {% extends 'main.html' %}
 {% block content %}
 <div class="uk-container">
-    <h2>Update Product - {{ product.name }}</h2>
+    <h1>Update Product - {{ product.name }}</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit" class="uk-button uk-button-primary">Save Changes</button>
+        <input type="button" class="uk-button uk-button-secondary" value="Go Back" onClick="javascript:history.go(-1);">
     </form>
 </div>
 {% endblock %}

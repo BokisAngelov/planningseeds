@@ -7,6 +7,8 @@
         <td>{{ offer.quantity }}</td>
         <td>{{offer.unit_price}}</td>
         <td>{{ offer.total_price }}</td>
-        <td></td>
+        {% if offer.status == 'Accepted' and not offer.invoice %}
+            <td><a href="{% url 'send-invoice' offer.id %}" class="send-invoice">Send Invoice</a></td>
+        {% endif %}
     </tr>
 {% endfor %}

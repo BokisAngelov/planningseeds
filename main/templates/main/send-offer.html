@@ -1,11 +1,11 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h2>Send Offer for "{{ for_request.product.name }}" and {{for_request.quantity}} pieces to {{for_request.user}}</h2>
+<h1>Send Offer for "{{ for_request.product.name }}" for {{for_request.quantity}} pieces to {{for_request.user}}</h1>
   <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="uk-button uk-button-primary" type="submit">Submit</button>
+    <button class="uk-button uk-button-primary" type="submit">Send Offer</button>
   </form>
 
 

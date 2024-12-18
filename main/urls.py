@@ -36,6 +36,7 @@ urlpatterns = [
     path('filter-requests/<str:pk>/', views.userProfile, name='filter-requests'),
     path('filter-invoices/', views.filterInvoices, name='filter-invoices'),
     path('filter-offers/', views.filterOffers, name='filter-offers'),
+    path('filter-customer-requests/', views.filter_customer_requests, name='filter-customer-requests'),
 
     path('about/', views.about, name='about'),
     path('how-it-works/', views.howWorks, name='how-it-works'),
