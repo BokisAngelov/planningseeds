@@ -18,12 +18,80 @@ from .utils import token_generator
 
 User = get_user_model()
 
+def send_email_invoice(request, offer):
+    try:
+        subject = f"Planning Seeds - Invoice for {offer.request.product.name}"
+        message = render_to_string('main/email_invoice_template.html', {
+            'offer': offer,
+            'request': request
+        })
+
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [offer.request.user.email])
+
+        return True
+    
+    except Exception as e:
+        print(f"Error sending email: {str(e)}")
+        messages.error(request, f"Error sending email. Please try again later.")
+
+        return False
+    
+
+def send_email_accepted_offer(request, offer):
+    try:
+        subject = f"Planning Seeds - Offer {offer.status} for {offer.request.product.name}"
+        message = render_to_string('main/email_offer_accepted_template.html', {
+            'offer': offer,
+            'request': request
+        })
+
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [offer.producer.user.email])
+
+        return True
+    
+    except Exception as e:
+        print(f"Error sending email: {str(e)}")
+        messages.error(request, f"Error sending email. Please try again later.")
+
+        return False
+    
+
+def send_email_for_offer(request, offer):
+    try:
+        subject = f"Planning Seeds - New offer for {offer.request.product.name}"
+        message = render_to_string('main/email_offer_template.html', {
+            'offer': offer,
+            'request': request
+        })
+
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [offer.request.user.email])
+
+        return True
+    
+    except Exception as e:
+        print(f"Error sending email: {str(e)}")
+        messages.error(request, f"Error sending email. Please try again later.")
+
+        return False
+
 def send_email_for_request(request, request_offer):
-    subject = "Planning Seeds - New request for " + request_offer.product.name
-    message = render_to_string('main/email_request_template.html', {
-        'request': request,
-        'request_offer': request_offer
-    })
+    try:
+            
+        subject = f"Planning Seeds - New request for {request_offer.product.name}"
+        message = render_to_string('main/email_request_template.html', {
+            'request': request,
+            'request_offer': request_offer
+        })
+        print(request_offer.product.producer.user.email)
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [request_offer.product.producer.user.email])
+
+        return True
+
+    except Exception as e:
+        print(f"Error sending email: {str(e)}")
+        messages.error(request, f"Error sending email. Please try again later.")
+
+        return False
 
 def send_verification_email(user, request):
     token = token_generator.make_token(user)
@@ -360,11 +428,17 @@ def request_offer(request, pk):
             # request_offer.user = request.user.userprofile.user
             user_profile = get_object_or_404(UserProfile, user=request.user)
             request_offer.user = user_profile  
-            request_offer.save()
-            # previous_url = request.META.get('HTTP_REFERER', '/')
-            send_email_for_request(request, request_offer)
-            messages.success(request, 'Your request has been sent to the producer!')
-            return redirect('product', product.id)
+
+            if send_email_for_request(request, request_offer):
+
+                request_offer.save()
+                # previous_url = request.META.get('HTTP_REFERER', '/')
+                # send_email_for_request(request, request_offer)
+                messages.success(request, 'Your request has been sent to the producer!')
+                return redirect('product', product.id)
+            
+            else:
+                messages.error(request, 'Failed to send the email. Please try again later.')
     else:
         form = RequestOfferForm()
 
@@ -382,13 +456,18 @@ def sendOffer(request, pk):
             offer.request = for_request
             offer.producer = for_request.product.producer
             offer.quantity = for_request.quantity
-            offer.save()
 
-            for_request.status = 'In-progress'
-            for_request.save()
+            if send_email_for_offer(request, offer):
+                # If email is sent successfully, save the offer and update request status
+                offer.save()
+                for_request.status = 'In-progress'
+                for_request.save()
+                messages.success(request, 'Your offer has been sent to the customer!')
+                return redirect('user-profile', pk=request.user.userprofile.id)
+            else:
+                # If email fails, show an error message and do not save the offer
+                messages.error(request, 'Failed to send the email. Please try again later.')
 
-            messages.success(request, 'Your offer has been sent to the customer!')
-            return redirect('user-profile', pk=request.user.userprofile.id)
     else:
         form = SendOfferForm()
 
@@ -502,16 +581,20 @@ def acceptOffer(request, offer_id):
 
         if request.user.userprofile == offer.request.user and answer_status == 'Accepted':
             offer.status = 'Accepted'
-            offer.save()
-            for_request.status = 'Accepted'
-            for_request.save()
-            return JsonResponse({'success': True})
+
+            if send_email_accepted_offer(request, offer):              
+                offer.save()
+                for_request.status = 'Accepted'
+                for_request.save()
+                return JsonResponse({'success': True})
         elif request.user.userprofile == offer.request.user and answer_status == 'Rejected':
             offer.status = 'Rejected'
-            offer.save()
-            for_request.status = 'Rejected'
-            for_request.save()
-            return JsonResponse({'success': True})
+
+            if send_email_accepted_offer(request, offer):
+                offer.save()
+                for_request.status = 'Rejected'
+                for_request.save()
+                return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'error': 'You are not authorized to accept this offer.'}, status=403)
         
@@ -562,7 +645,7 @@ def sendInvoice(request, offer_id):
 
         # Save the invoice to the database
         create_invoice_record = Invoice.objects.create(offer=offer, invoice_file=invoice_file_path)
-
+        send_email_invoice(request, offer)
         messages.success(request, 'You have sent the invoice successfully!')
         # Redirect to a success page or back to the profile
         return redirect('user-profile', pk=request.user.userprofile.id)

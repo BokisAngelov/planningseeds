@@ -1,0 +1,18 @@
+{% autoescape off %}
+Hi {{ offer.request.user.username }},
+
+You have received a new offer for {{ offer.request.product.name }} from {{ offer.request.product.producer.first_name }} {{ offer.request.product.producer.last_name }}.
+
+Offer Details:
+Product: {{ offer.request.product.name }}
+Quantity: {{ offer.quantity }}
+Unit Price: {{ offer.unit_price }}
+Delivery Timeline: {{ offer.delivery_timeline }}
+Additional Notes: {{ offer.additional_notes }}
+
+Please login to your account to accept or reject the offer from your profile.
+
+
+Best regards,
+Planning Seeds Team
+{% endautoescape %}

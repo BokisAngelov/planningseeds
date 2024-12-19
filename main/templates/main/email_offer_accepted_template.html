@@ -1,0 +1,12 @@
+{% autoescape off %}
+Hi {{ offer.producer.user.username }},
+
+Your offer for {{ offer.request.product.name }} has been {{ offer.status }} by {{ offer.request.user.first_name }} {{ offer.request.user.last_name}}.
+{% if offer.status == 'Accepted' %}
+Please login to your account to send an invoice to the customer from your profile.
+{% endif %}
+
+
+Best regards,
+Planning Seeds Team
+{% endautoescape %}

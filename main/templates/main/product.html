@@ -104,7 +104,7 @@
 
 <!-- For customer -->
 {% if requestsFrom %}
-<h3>My Requests</h32>
+<h3>My Requests</h3>
 <table class="uk-table">
     <thead>
         <tr>
@@ -117,7 +117,7 @@
     <tbody>  
     {% for request in requestsFrom %}
         <tr>
-            <td> {{ request.created }}</td>
+            <td>{{ request.created }}</td>
             <td>{{ request.quantity }}</td>
             <td>{{ request.status }}</td>
             <td></td>

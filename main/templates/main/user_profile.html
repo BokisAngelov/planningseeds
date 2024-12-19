@@ -32,6 +32,8 @@
             {% if user.phone_number %}
             <p>{{ user.phone_number }}</p>
             {% endif %}
+
+            {{ user.email }}
         </div>
     </div>
 </div>
@@ -196,48 +198,47 @@
 
 {% if is_owner and received_offers %}
 <div class="uk-container uk-margin-large-top">
-<h3 >Pending Offers</h3>
-<table class="uk-table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Producer</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total Price</th>
-            <th>Accept</th>
-            <th>Reject</th>
-        </tr>
-    </thead>
-    <tbody>  
-    {% for offer in received_offers %}
-        {% if offer.status == 'Accepted' %}
-
-            {{continue}}
-        {% else %}
-        <tr>
-            <td>{{offer.created}}</td>
-            <td>{{offer.status}}</td>
-            <td><a href="{% url 'user-profile' offer.producer.id %}">{{offer.producer}}</a></td>
-            <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
-            <td>{{ offer.quantity }}</td>
-            <td>{{offer.unit_price}}</td>
-            <td>{{ offer.total_price }}</td>
-            {% if offer.status != 'Accepted' %}
-            <td><a href="#" class="accept-offer" data-offer-id="{{offer.id}}" data-status="Accepted">Accept</a></td>
-            <td><a href="#" class="reject-offer" data-offer-id="{{offer.id}}" data-status="Rejected">Reject</a></td>
+    <h3 >Pending Offers</h3>
+    <table class="uk-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Producer</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+                <th>Accept</th>
+                <th>Reject</th>
+            </tr>
+        </thead>
+        <tbody>  
+        {% for offer in received_offers %}
+            {% if offer.status != 'In-progress' %}
+                {{continue}}
+            {% else %}
+            <tr>
+                <td>{{offer.created}}</td>
+                <td>{{offer.status}}</td>
+                <td><a href="{% url 'user-profile' offer.producer.id %}">{{offer.producer}}</a></td>
+                <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+                <td>{{ offer.quantity }}</td>
+                <td>{{offer.unit_price}}</td>
+                <td>{{ offer.total_price }}</td>
+                {% if offer.status != 'Accepted' %}
+                <td><a href="#" class="accept-offer" data-offer-id="{{offer.id}}" data-status="Accepted">Accept</a></td>
+                <td><a href="#" class="reject-offer" data-offer-id="{{offer.id}}" data-status="Rejected">Reject</a></td>
+                {% endif %}
+            </tr>
             {% endif %}
-        </tr>
-        {% endif %}
-    {% endfor %}
-    </tbody>
-</table>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 <div class="uk-container uk-margin-large-top">
-    <h3 >Accepted Offers</h3>
+    <h3 >Accepted/Rejected Offers</h3>
     <table class="uk-table">
         <thead>
             <tr>
@@ -253,15 +254,14 @@
         </thead>
         <tbody>  
         {% for offer in received_offers %}
-            {% if offer.status != 'Accepted' %}
-    
+            {% if offer.status == 'In-progress' %}
                 {{continue}}
             {% else %}
             <tr>
                 <td>{{offer.created}}</td>
                 <td>{{offer.status}}</td>
                 <td><a href="{% url 'user-profile' offer.producer.id %}">{{offer.producer}}</a></td>
-                <td> <a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
+                <td><a href="{% url 'product' offer.request.product.id %}">{{ offer.request.product.name }}</a></td>
                 <td>{{ offer.quantity }}</td>
                 <td>{{offer.unit_price}}</td>
                 <td>{{ offer.total_price }}</td>
@@ -296,7 +296,8 @@
     
     {% endif %}
 
-    </div>
+</div>
+
 {% endif %}
 <script>
     $(document).ready(function(){

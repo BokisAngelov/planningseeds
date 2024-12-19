@@ -95,7 +95,8 @@ form label{
     padding-bottom: 4px;
     display: block;
 }
-.uk-input{
+.uk-input,
+#id_new_password1{
     border-radius: 8px;
     border-color: #424242;
 }

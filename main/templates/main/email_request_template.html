@@ -1,7 +1,12 @@
 {% autoescape off %}
-Hi {{ user.username }},
+Hi {{ request_offer.product.producer.user.username }},
 
-You have received a new request for {{ request_offer.product.name }} from {{ request.user.userprofile.first_name }} {{ request.user.userprofile.last_name }}.
+You have received a new request from {{ request.user.userprofile.first_name }} {{ request.user.userprofile.last_name }}.
+
+Request Details:
+Product: {{ request_offer.product.name }}
+Quantity: {{ request_offer.quantity }}
+Additional Notes: {{ request_offer.additional_notes }}
 
 Please login to your account to accept or reject the request from your profile.
 

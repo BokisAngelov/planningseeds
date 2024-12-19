@@ -1,0 +1,11 @@
+{% autoescape off %}
+Hi {{ offer.request.user.username }},
+
+You have received your invoice from {{ offer.request.product.name }} from {{ offer.request.product.producer }}.
+
+Please login to your account to download the invoice.
+
+
+Best regards,
+Planning Seeds Team
+{% endautoescape %}
