@@ -49,7 +49,7 @@
 
 <!-- For owner -->
 {% if request.user.is_authenticated and request.user.userprofile == productObj.producer and requestsTo %}
-<h2>Requests</h2>
+<h3>Requests</h3>
 <table class="uk-table">
     <thead>
         <tr>
@@ -75,7 +75,7 @@
 {% endif %}
 
 {% if request.user.userprofile == productObj.producer and offers %}
-<h2>Offers</h2>
+<h3>Offers</h3>
 <table class="uk-table">
     <thead>
         <tr>
@@ -104,7 +104,7 @@
 
 <!-- For customer -->
 {% if requestsFrom %}
-<h2>My Requests</h2>
+<h3>My Requests</h32>
 <table class="uk-table">
     <thead>
         <tr>

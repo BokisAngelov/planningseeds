@@ -1,0 +1,11 @@
+{% autoescape off %}
+Hi {{ user.username }},
+
+You have received a new request for {{ request_offer.product.name }} from {{ request.user.userprofile.first_name }} {{ request.user.userprofile.last_name }}.
+
+Please login to your account to accept or reject the request from your profile.
+
+
+Best regards,
+Planning Seeds Team
+{% endautoescape %}

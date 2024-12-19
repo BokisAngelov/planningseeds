@@ -18,11 +18,18 @@ from .utils import token_generator
 
 User = get_user_model()
 
+def send_email_for_request(request, request_offer):
+    subject = "Planning Seeds - New request for " + request_offer.product.name
+    message = render_to_string('main/email_request_template.html', {
+        'request': request,
+        'request_offer': request_offer
+    })
+
 def send_verification_email(user, request):
     token = token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     verification_link = request.build_absolute_uri(f"/verify-email/{uid}/{token}/")
-    subject = "Verify your email"
+    subject = "Planning Seeds - Verify your email"
     message = render_to_string('main/email_verification_template.html', {
         'user': user,
         'verification_link': verification_link
@@ -257,7 +264,7 @@ def registerUser(request):
                 )
                 
                 send_verification_email(user, request)
-                messages.success(request, 'A verification link has been sent to your email!')
+                messages.success(request, 'A verification link has been sent to your email! Please verify your email before logging in.')
                 
                 return redirect('/')
         else:
@@ -297,7 +304,7 @@ def createProduct(request):
             product = form.save(commit=False)
             product.producer = profile
             form.save()
-            messages.success(request, 'You have added a new product!')
+            messages.success(request, 'Good Job! You have added a new product.')
             return redirect('user-profile', profile.id)
 
     context = {'form': form}
@@ -319,7 +326,7 @@ def updateProduct(request, pk):
         
         if form.is_valid():
             form.save()
-            messages.success(request, 'You have updated your product!')
+            messages.success(request, 'Your product has been updated!')
             return redirect('product', product.id)
 
     context = {'form': form, 'product': product}
@@ -334,7 +341,7 @@ def deleteProduct(request, pk):
 
     if request.method == 'POST':
         product.delete()
-        messages.success(request, 'You have deleted your product!')
+        messages.success(request, 'Your product has been deleted!')
         return redirect('user-profile', profile.id)
 
     context = {'object': product}
@@ -355,6 +362,7 @@ def request_offer(request, pk):
             request_offer.user = user_profile  
             request_offer.save()
             # previous_url = request.META.get('HTTP_REFERER', '/')
+            send_email_for_request(request, request_offer)
             messages.success(request, 'Your request has been sent to the producer!')
             return redirect('product', product.id)
     else:
