@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load i18n %}
 {% load static %}
 {% block content %}
 
@@ -7,7 +8,7 @@
 <div class="auth">
     <div class="uk-card">
       <div class="auth__header">
-        <h1>Sign Up</h1>
+        <h1>{% trans "Sign Up" %}</h1>
       </div>
 
       <form method="POST" action="{% url 'register' %}" class="uk-form auth__form">
@@ -26,11 +27,11 @@
         
 
         <div class="auth__actions">
-          <input class="uk-button uk-button-primary" type="submit" value="Sign Up" />
+          <input class="uk-button uk-button-primary" type="submit" value="{% trans 'Sign Up' %}" />
         </div>
       </form>
       <div class="auth__alternative uk-margin">
-        <p>Already have an Account? <spam><a href="{% url 'login' %}">Log In</a></spam></p>        
+        <p>{% trans "Already have an Account?" %} <spam><a href="{% url 'login' %}">{% trans "Log In" %}</a></spam></p>        
       </div>
     </div>
   </div>
@@ -41,32 +42,32 @@
     <div class="card">
 
       <div class="auth__header">
-        <h1>Login</h1>
+        <h1>{% trans "Login" %}</h1>
       </div>
 
       <form action="{% url 'login' %}" method="POST" class="form auth__form">
         {% csrf_token %}
         <!-- Input:Username -->
         <div class="form__field">
-          <label for="formInput#text uk-margin">Username: </label>
+          <label for="formInput#text uk-margin">{% trans "Username:" %} </label>
           <input class="uk-input" id="formInput#text" type="text" name="username"
-            placeholder="Enter your username..." />
+            placeholder="{% trans 'Enter your username...' %}" />
         </div>
 
         <!-- Input:Password -->
         <div class="form__field uk-margin">
-          <label for="formInput#password">Password: </label>
+          <label for="formInput#password">{% trans "Password:" %} </label>
           <input class="uk-input" id="formInput#passowrd" type="password" name="password"
             placeholder="••••••••" />
         </div>
         <div class="auth__actions uk-margin">
-          <input class="uk-button uk-button-primary" type="submit" value="Log In" />
-          <p><a href="{% url 'password_reset' %}"><span>Forgot Password?</span></a></p>
+          <input class="uk-button uk-button-primary" type="submit" value="{% trans 'Log In' %}" />
+          <p><a href="{% url 'password_reset' %}"><span>{% trans "Forgot Password?" %}</span></a></p>
         </div>
       </form>
 
       <div class="auth__alternative">
-        <p>Don’t have an Account? <a href="{% url 'register' %}"><span>Sign Up</span></a></p>
+        <p>{% trans "Don’t have an Account?" %} <a href="{% url 'register' %}"><span>{% trans "Sign Up" %}</span></a></p>
         
       </div>
     </div>

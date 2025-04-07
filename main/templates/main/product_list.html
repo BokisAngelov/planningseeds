@@ -1,15 +1,15 @@
 {% extends 'main.html' %}
-
+{% load i18n %}
 {% block content %}
-<h1 class="uk-margin-medium">Products</h1>
+<h1 class="uk-margin-medium">{% trans "Products" %}</h1>
 
 <div class="uk-container">
     <div class="uk-grid-small" id="sticky-div" uk-grid>
         <div class="uk-width-1-4@m">
-            <a class="uk-button uk-button-primary uk-margin filter-btn" href="{% url 'products-list' %}">Reset Filters</a>
+            <a class="uk-button uk-button-primary uk-margin filter-btn" href="{% url 'products-list' %}">{% trans "Reset Filters" %}</a>
             <div class="uk-card uk-padding-remove-left">
                 <div class="uk-card-header uk-padding-remove-left uk-padding-remove-bottom">
-                    <h3 class="uk-card-title">Categories <a class="uk-hidden@m" uk-toggle="target: #category-form; animation: uk-animation-fade"><span uk-icon="chevron-down"></span></a></h3>
+                    <h3 class="uk-card-title">{% trans "Categories" %} <a class="uk-hidden@m" uk-toggle="target: #category-form; animation: uk-animation-fade"><span uk-icon="chevron-down"></span></a></h3>
                 </div>
                 <div class="uk-card-body uk-padding-remove-left uk-padding-remove-top uk-margin-top filter-div">
                     <form id="category-form" uk-toggle="cls: uk-visible; mode: media; media: @l">
@@ -25,7 +25,7 @@
             <hr class="uk-visible@m">
             <div class="uk-card uk-padding-remove-left">
                 <div class="uk-card-header uk-padding-remove-left uk-padding-remove-bottom">
-                    <h3 class="uk-card-title">Countries <a class="uk-hidden@m" uk-toggle="target: #country-form"><span uk-icon="chevron-down"></span></a></h3>
+                    <h3 class="uk-card-title">{% trans "Countries" %} <a class="uk-hidden@m" uk-toggle="target: #country-form"><span uk-icon="chevron-down"></span></a></h3>
                 </div>
                 <div class="uk-card-body uk-padding-remove-left uk-padding-remove-top uk-margin-top filter-div">
                     <form id="country-form">

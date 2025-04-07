@@ -1,3 +1,4 @@
+{% load i18n %}
 {% for product in products %}
 <div>
     <div class="uk-card uk-card-default uk-card-body">
@@ -12,14 +13,14 @@
         {% endfor %}
         <p>{{ product.producer.country.name }}</p>
         {% if request.user.is_authenticated and request.user.userprofile.owner.id == request.user.userprofile.id %}
-        <a class="uk-link" href="{% url 'update-product' product.id %}">Edit</a>
-        <a class="uk-link" href="{% url 'product' product.id %}">View</a>
-        <a class="uk-link" href="{% url 'delete-product' product.id %}">Delete</a>
+        <a class="uk-link" href="{% url 'update-product' product.id %}">{% trans "Edit" %}</a>
+        <a class="uk-link" href="{% url 'product' product.id %}">{% trans "View" %}</a>
+        <a class="uk-link" href="{% url 'delete-product' product.id %}">{% trans "Delete" %}</a>
         {% endif %}
     </div>
 </div>
 {% empty %}
 <div>
-    <h3>No products found</h3>
+    <h3>{% trans "No products found" %}</h3>
 </div>
 {% endfor %}

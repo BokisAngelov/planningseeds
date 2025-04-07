@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import logging
+from django.utils.translation import gettext as _
 
 logging.basicConfig(level=logging.DEBUG)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -128,6 +130,7 @@ LANGUAGES = [
     ('fr', 'French'),
     ('el', 'Greek'),
     ('ro', 'Romanian'),
+    ('es', 'Spanish'),
 ]
 # Path for translation files
 LOCALE_PATHS = [

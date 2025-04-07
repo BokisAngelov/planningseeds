@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,7 +39,6 @@
         <div class="uk-navbar-right">
             <ul class="uk-navbar-nav uk-visible@m" uk-nav="multiple: true">
                 <li class="{% if request.path == '/how-it-works/' %}uk-active{% endif %}"><a href="/how-it-works">How it works</a></li>
-                <li class="{% if request.path == '/about/' %}uk-active{% endif %}"><a href="/about">About</a></li>
                 <li class="{% if request.path == '/products-list/' %}uk-active{% endif %}"><a href="{% url 'products-list' %}">Products</a></li>
                 <li class="{% if request.path == '/profiles/' %}uk-active{% endif %}"><a href="{% url 'userprofiles' %}">Producers</a></li>
                 {% if request.user.is_authenticated %}
@@ -59,6 +59,24 @@
                 {% else %}
                 <li><a href="{% url 'login' %}">Login/Sign Up <span uk-icon="user"></span></a></li>
                 {% endif %}
+                <!--
+                <li>
+                    {% load language_switcher %}
+                    {% available_languages as languages %}
+                    {% current_language as active_language %}
+                    <a href="#"><span uk-icon="dribbble"></span>{{ active_language }}</span><span uk-nav-parent-icon></span></a>
+                        <div uk-dropdown="mode: click">
+                            <ul class="uk-nav-sub">
+                                {% for code, name in languages %}
+                                    {% if code == active_language %}
+                                        {{ continue }}
+                                    {% else %}
+                                        <li><a href="/{{ code }}/{{ request.get_full_path|slice:'4:' }}">{{ name }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                </li> -->
             </ul>
             <button class="uk-hidden@m uk-button uk-button-primary uk-margin-small-right" type="button" uk-toggle="target: #offcanvas-nav-primary">MENU</button>
             <div class="uk-hidden@m" id="offcanvas-nav-primary" uk-offcanvas="overlay: true">
@@ -66,7 +84,6 @@
                     <a class="uk-text-center uk-margin-top" href="/"><img width="200" src="/media/images/planningSeeds_logo.png" /></a>
                     <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
                         <li class=""><a href="/how-it-works">How it works</a></li>
-                        <li class=""><a href="/about">About</a></li>
                         <li class=""><a href="{% url 'products-list' %}">Products</a></li>
                         <li><a href="{% url 'userprofiles' %}">Producers</a></li>
                         {% if request.user.is_authenticated %}
@@ -87,6 +104,24 @@
                         {% else %}
                         <li><a href="{% url 'login' %}">Login/Sign Up <span uk-icon="user"></span></a></li>
                         {% endif %}
+                        <!--
+                        <li>
+                            {% load language_switcher %}
+                            {% available_languages as languages %}
+                            {% current_language as active_language %}
+                            <a href="#"><span uk-icon="dribbble"></span>{{ active_language }}</span><span uk-nav-parent-icon></span></a>
+                                <div uk-dropdown="mode: click">
+                                    <ul class="uk-nav-sub">
+                                        {% for code, name in languages %}
+                                            {% if code == active_language %}
+                                                {{ continue }}
+                                            {% else %}
+                                                <li><a href="/{{ code }}/{{ request.get_full_path|slice:'4:' }}">{{ name }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                        </li> -->
                     </ul>
             
                 </div>

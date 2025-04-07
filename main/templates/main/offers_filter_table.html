@@ -1,3 +1,4 @@
+{% load i18n %}
 {% for offer in offers %}
     <tr>
         <td>{{offer.created}}</td>
@@ -8,7 +9,7 @@
         <td>{{offer.unit_price}}</td>
         <td>{{ offer.total_price }}</td>
         {% if offer.status == 'Accepted' and not offer.invoice %}
-            <td><a href="{% url 'send-invoice' offer.id %}" class="send-invoice">Send Invoice</a></td>
+            <td><a href="{% url 'send-invoice' offer.id %}" class="send-invoice">{% trans "Send Invoice" %}</a></td>
         {% endif %}
     </tr>
 {% endfor %}

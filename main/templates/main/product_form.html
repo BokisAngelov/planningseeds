@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-
+{% load i18n %}
 {% block content %}
 
 <h1 class="uk-margin-medium">Add new product</h1>
@@ -7,7 +7,7 @@
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
-    <input class="uk-button uk-button-primary" type="submit" value="Add Product" />
+    <input class="uk-button uk-button-primary" type="submit" value="{% trans 'Add Product' %}" />
 </form>
 
 {% endblock %}

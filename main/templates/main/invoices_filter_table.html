@@ -1,9 +1,10 @@
+{% load i18n %}
 {% for inv in invoices %}
 <tr>
     <td>{{inv.created}}</td>
     <td>{{inv.offer.request.product.name}}</td>
     <td>{{inv.offer.total_price}}</td>
     <td>{{inv.offer.request.user}}</td>
-    <td><a target="_blank" href="{{inv.invoice_file}}" download>Download Invoice</a></td>
+    <td><a target="_blank" href="{{inv.invoice_file}}" download>{% trans 'Download Invoice" %}</a></td>
 </tr>
 {% endfor %}

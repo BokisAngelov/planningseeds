@@ -1,11 +1,11 @@
 {% extends 'main.html' %}
-
+{% load i18n %}
 {% block content %}
 
 <div class="uk-card uk-card-default uk-padding uk-width-2xlarge">
     {% if is_owner %}
     <div class="uk-margin-small">
-        <a class="link-text" href="{% url 'edit-user' %}"><span uk-icon="icon: pencil; ratio: 0.8"></span> Edit profile</a>
+        <a class="link-text" href="{% url 'edit-user' %}"><span uk-icon="icon: pencil; ratio: 0.8"></span> {% trans "Edit profile" %}</a>
     </div>
     {% endif %}
     <div class="uk-grid">
@@ -32,15 +32,13 @@
             {% if user.phone_number %}
             <p>{{ user.phone_number }}</p>
             {% endif %}
-
-            {{ user.email }}
         </div>
     </div>
 </div>
 
 
 {% if products %}
-<h2>Recent Products</h2>
+<h2>{% trans "Recent Products" %}</h2>
 <div class="uk-position-relative uk-visible-toggle uk-margin-large-bottom" tabindex="-1" uk-slider>
     <div class="uk-slider-items uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s uk-grid products-grid" uk-grid>
         {% for product in products %}
@@ -58,10 +56,10 @@
                     <hr>
                     <div class="uk-grid-small" uk-grid>
                         <div class="uk-width-1-2">
-                            <a class="uk-link" href="{% url 'update-product' product.id %}"><span uk-icon="icon:pencil; ratio:0.8"></span> Edit</a>
+                            <a class="uk-link" href="{% url 'update-product' product.id %}"><span uk-icon="icon:pencil; ratio:0.8"></span> {% trans "Edit" %}</a>
                         </div>
                         <div class="uk-width-1-2">
-                            <a class="uk-link" href="{% url 'delete-product' product.id %}"><span uk-icon="icon:trash; ratio:0.8"></span> Delete</a>
+                            <a class="uk-link" href="{% url 'delete-product' product.id %}"><span uk-icon="icon:trash; ratio:0.8"></span> {% trans "Delete" %}</a>
                         </div>
                     </div>
                     {% endif %}
@@ -78,14 +76,14 @@
 
 <!-- for producers -->
 {% if is_owner and requestsFrom %}
-    <h3 class="uk-margin">My Requests</h3>
+    <h3 class="uk-margin">{% trans "My Requests" %}</h3>
     <!-- <label for="request-status-filter">Filter by status:</label> -->
     <select id="request-status-filter" class="uk-select">
-        <option value="">All</option>
-        <option value="Pending">Pending</option>
-        <option value="Accepted">Accepted</option>
-        <option value="Rejected">Rejected</option>
-        <option value="In-progress">In-progress</option>
+        <option value="">{% trans "All" %}</option>
+        <option value="Pending">{% trans "Pending" %}</option>
+        <option value="Accepted">{% trans "Accepted" %}</option>
+        <option value="Rejected">{% trans "Rejected" %}</option>
+        <option value="In-progress">{% trans "In-progress" %}</option>
     </select>
 
     <div id="requests-table-container" class="uk-margin-medium-bottom">
@@ -94,27 +92,27 @@
 
     {% if offers %}
     <div class="uk-container uk-margin-medium-bottom">
-        <h3>My Offers</h3>
+        <h3>{% trans "My Offers" %}</h3>
         <!-- <label for="offers-status-filter">Filter by status:</label> -->
         <select id="offers-status-filter" class="uk-select">
-            <option value="">All</option>
-            <option value="Accepted">Accepted</option>
-            <option value="Declined">Declined</option>
-            <option value="In-progress">In-progress</option>
+            <option value="">{% trans "All" %}</option>
+            <option value="Accepted">{% trans "Accepted" %}</option>
+            <option value="Declined">{% trans "Declined" %}</option>
+            <option value="In-progress">{% trans "In-progress" %}</option>
         </select>
         <div>
         
             <table class="uk-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Customer</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Total Price</th>
-                        <td>Action</td>
+                        <th>{% trans "Date" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Customer" %}</th>
+                        <th>{% trans "Product" %}</th>
+                        <th>{% trans "Quantity" %}</th>
+                        <th>{% trans "Unit Price" %}</th>
+                        <th>{% trans "Total Price" %}</th>
+                        <td>{% trans "Action" %}</td>
                     </tr>
                 </thead>
                 <tbody id="offers-table-container">  
@@ -126,18 +124,18 @@
     {% endif %}
 
     {% if send_invoices %}
-    <h3 class="">My Invoices</h3>
+    <h3 class="">{% trans "My Invoices" %}</h3>
     <!-- <label for="invoices-status-filter">Filter by status:</label> -->
     <div class="uk-margin-medium-bottom">
         <div class="uk-container">
             <table class="uk-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Product</th>
-                        <th>Total Price</th>
-                        <th>Customer</th>
-                        <th>File</th>
+                        <th>{% trans "Date" %}</th>
+                        <th>{% trans "Product" %}</th>
+                        <th>{% trans "Total Price" %}</th>
+                        <th>{% trans "Customer" %}</th>
+                        <th>{% trans "File" %}</th>
                     </tr>
                 </thead>
                 <tbody id="invoices-table-container">  
@@ -147,7 +145,7 @@
                         <td>{{inv.offer.request.product.name}}</td>
                         <td>{{inv.offer.total_price}}</td>
                         <td>{{inv.offer.request.user}}</td>
-                        <td><a target="_blank" href="{{inv.invoice_file}}" download>Download Invoice</a></td>
+                        <td><a target="_blank" href="{{inv.invoice_file}}" download>{% trans "Download Invoice" %}</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -166,26 +164,26 @@
 <!-- for customer -->
 {% if is_owner and requestsTo %}
 <div class="uk-container uk-margin-large-top">
-<h3>My Requests</h3>
+<h3>{% trans "My Requests" %}</h3>
 
 <!-- <label for="request-customer-status-filter">Filter by status:</label> -->
 <select id="request-customer-status-filter" class="uk-select">
-    <option value="">All</option>
-    <option value="Pending">Pending</option>
-    <option value="Accepted">Accepted</option>
-    <option value="Rejected">Rejected</option>
-    <option value="In-progress">In-progress</option>
+    <option value="">{% trans "All" %}</option>
+    <option value="Pending">{% trans "Pending" %}</option>
+    <option value="Accepted">{% trans "Accepted" %}</option>
+    <option value="Rejected">{% trans "Rejected" %}</option>
+    <option value="In-progress">{% trans "In-progress" %}</option>
 </select>
 
 <table class="uk-table">
     <thead>
         <tr>
-            <th>Date</th>
-            <th>Product</th>
-            <th>Producer</th>
-            <th>Quantity</th>
-            <th>Notes</th>
-            <th>Status</th>
+            <th>{% trans "Date" %}</th>
+            <th>{% trans "Product" %}</th>
+            <th>{% trans "Producer" %}</th>
+            <th>{% trans "Quantity" %}</th>
+            <th>{% trans "Notes" %}</th>
+            <th>{% trans "Status" %}</th>
             
         </tr>
     </thead>
@@ -198,19 +196,19 @@
 
 {% if is_owner and received_offers %}
 <div class="uk-container uk-margin-large-top">
-    <h3 >Pending Offers</h3>
+    <h3>{% trans "Pending Offers" %}</h3>
     <table class="uk-table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Producer</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
-                <th>Accept</th>
-                <th>Reject</th>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Producer" %}</th>
+                <th>{% trans "Product" %}</th>
+                <th>{% trans "Quantity" %}</th>
+                <th>{% trans "Unit Price" %}</th>
+                <th>{% trans "Total Price" %}</th>
+                <th>{% trans "Accept" %}</th>
+                <th>{% trans "Reject" %}</th>
             </tr>
         </thead>
         <tbody>  
@@ -227,8 +225,8 @@
                 <td>{{offer.unit_price}}</td>
                 <td>{{ offer.total_price }}</td>
                 {% if offer.status != 'Accepted' %}
-                <td><a href="#" class="accept-offer" data-offer-id="{{offer.id}}" data-status="Accepted">Accept</a></td>
-                <td><a href="#" class="reject-offer" data-offer-id="{{offer.id}}" data-status="Rejected">Reject</a></td>
+                <td><a href="#" class="accept-offer" data-offer-id="{{offer.id}}" data-status="Accepted">{% trans "Accept" %}</a></td>
+                <td><a href="#" class="reject-offer" data-offer-id="{{offer.id}}" data-status="Rejected">{% trans "Reject" %}</a></td>
                 {% endif %}
             </tr>
             {% endif %}
@@ -238,18 +236,17 @@
 </div>
 
 <div class="uk-container uk-margin-large-top">
-    <h3 >Accepted/Rejected Offers</h3>
+    <h3>{% trans "Accepted/Rejected Offers" %}</h3>
     <table class="uk-table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Producer</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
-                
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Producer" %}</th>
+                <th>{% trans "Product" %}</th>
+                <th>{% trans "Quantity" %}</th>
+                <th>{% trans "Unit Price" %}</th>
+                <th>{% trans "Total Price" %}</th>                
             </tr>
         </thead>
         <tbody>  
@@ -272,14 +269,14 @@
     </table>
 
     {% if received_invoices %}
-    <h3 class="uk-margin-large-top">My Invoices</h3>
+    <h3 class="uk-margin-large-top">{% trans "My Invoices" %}</h3>
     <table class="uk-table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Producer</th>
-                <th>Product</th>
-                <th>Invoice</th>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Producer" %}</th>
+                <th>{% trans "Product" %}</th>
+                <th>{% trans "Invoice" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -288,7 +285,7 @@
                 <td>{{inv.created}}</td>
                 <td><a href="{% url 'user-profile' inv.offer.producer.id %}">{{inv.offer.producer}}</a></td>
                 <td> <a href="{% url 'product' inv.offer.request.product.id %}">{{ inv.offer.request.product.name }}</a></td>
-                <td><a href="{{ inv.invoice_file }}" target="_blank" download>Download</a></td>
+                <td><a href="{{ inv.invoice_file }}" target="_blank" download>{% trans "Download" %}</a></td>
             </tr>
             {% endfor %}
         </tbody>    

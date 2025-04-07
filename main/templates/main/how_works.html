@@ -1,8 +1,10 @@
 {% extends 'main.html' %}
 
+{% load i18n %}
+
 {% block content %}
 
-<h1>How it works</h1>
+<h1>{% trans "How it works" %}</h1>
 
 <div class="uk-grid-large uk-margin-large-top" uk-grid>
 
@@ -11,17 +13,16 @@
             <img src="/media/images/hiw-registartion-1.png" alt="How it works - Registration" />
         </div>
     </div>
-
     <div class="uk-width-2-3">
         <div>
-            <h2>Registration</h2>
+            <h2>{% trans "Registration" %}</h2>
             <p>
-                Create a new account or log in to an existing one. Choose between Customer or Producer.
+                {% trans "Create a new account or log in to an existing one. Choose between Customer or Producer." %}
             </p>
             <img src="/media/images/hiw-registartion-2.png" alt="How it works - Registration 2" />
 
             <div class="uk-margin-medium-top">
-                <a class="uk-button uk-button-primary" href="{% url 'register' %}">Create an account</a>
+                <a class="uk-button uk-button-primary" href="{% url 'register' %}">{% trans "Create an account" %}</a>
             </div>
         </div>
 
@@ -39,22 +40,22 @@
 
     <div class="uk-width-2-3">
         <div>
-            <h2>Customer</h2>
+            <h2>{% trans "Customer" %}</h2>
             <h4>
-                STEP 1: Request Offers
+                {% trans "STEP 1: Request Offers" %}
             </h4>
-            <p>Customers can find and request quotes for specific products. Each request includes details such as product specifications, quantities etc.</p>
+            <p>{% trans "Customers can find and request quotes for specific products. Each request includes details such as product specifications, quantities etc." %}</p>
             
             <img src="/media/images/hiw-customer-1.png" alt="How it works - Customer 2" />
 
             <h4>
-                STEP 2: Place Orders
+                {% trans "STEP 2: Place Orders" %}
             </h4>
-            <p>Customers can place orders based on received offers. No financial transactions will be processed through the platform. A dashboard with the history of orders will be visible.</p>
+            <p>{% trans "Customers can place orders based on received offers. No financial transactions will be processed through the platform. A dashboard with the history of orders will be visible." %}</p>
             
             <img src="/media/images/hiw-customer-2.png" alt="How it works - Customer 2" />
             <div class="uk-margin-medium-top">
-                <a class="uk-button uk-button-primary" href="{% url 'products-list' %}">View products</a>
+                <a class="uk-button uk-button-primary" href="{% url 'products-list' %}">{% trans "View products" %}</a>
             </div>
         </div>
 
@@ -72,16 +73,16 @@
 
     <div class="uk-width-2-3">
         <div>
-            <h2>Producer</h2>
+            <h2>{% trans "Producer" %}</h2>
             <h4>
-                STEP 1: Send Offers to Customers
+                {% trans "STEP 1: Send Offers to Customers" %}
             </h4>
-            <p>Producers can review requests and send detailed offers to customers. Offers include pricing, delivery timelines, and other relevant terms. A dashboard with the history of sent offers will be visible.</p>
+            <p>{% trans "Producers can review requests and send detailed offers to customers. Offers include pricing, delivery timelines, and other relevant terms. A dashboard with the history of sent offers will be visible." %}</p>
             
             <h4>
-                STEP 2: Use Template to Send Invoices
+                {% trans "STEP 2: Use Template to Send Invoices" %}
             </h4>
-            <p>Producers will generate invoices using predefined templates.</p>
+            <p>{% trans "Producers will generate invoices using predefined templates." %}</p>
             
         </div>
 

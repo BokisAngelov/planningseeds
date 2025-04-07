@@ -1,19 +1,19 @@
 {% extends 'main.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="uk-container">
-    <h1>Prepare Invoice for "{{ offer.request.product.name }}"</h1>
-    <p>Quantity: {{ offer.quantity }}</p>
-    <p>Unit Price: {{ offer.unit_price }}</p>
-    <p>Total Price: {{ offer.total_price }}</p>
-    <p>Delivery Timeline: {{ offer.delivery_timeline }}</p>
-    <p>Additional note: {{ offer.additional_notes }}</p>
+    <h1>{% trans "Prepare Invoice for" %} "{{ offer.request.product.name }}"</h1>
+    <p>{% trans "Quantity:" %} {{ offer.quantity }}</p>
+    <p>{% trans "Unit Price:" %} {{ offer.unit_price }}</p>
+    <p>{% trans "Total Price:" %} {{ offer.total_price }}</p>
+    <p>{% trans "Delivery Timeline:" %} {{ offer.delivery_timeline }}</p>
+    <p>{% trans "Additional note:" %} {{ offer.additional_notes }}</p>
 
     <form method="POST" action="{% url 'send-invoice' offer.id %}" class="uk-margin-top">
         {% csrf_token %}
-        <button type="submit" name="submit" class="uk-button uk-button-primary">Confirm and Send Invoice</button>
+        <button type="submit" name="submit" class="uk-button uk-button-primary">{% trans "Confirm and Send Invoice" %}</button>
         <!-- <button type="submit" name="cancel" class="uk-button uk-button-primary" href="{% url 'send-invoice' offer.id %}">Go back and cancel Invoice</button> -->
-        <a href="{% url 'user-profile' offer.request.product.producer.id %}" class="uk-button uk-button-secondary">Go Back</a>
+        <a href="{% url 'user-profile' offer.request.product.producer.id %}" class="uk-button uk-button-secondary">{% trans "Go Back" %}</a>
         <!-- <input type="button" class="uk-button uk-button-secondary" value="Go Back" onClick="javascript:history.go(-1);"> -->
     </form>
 </div>

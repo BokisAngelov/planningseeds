@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load i18n %}
 
 {% block content %}
 
@@ -6,8 +7,14 @@
 
     <div class="uk-grid uk-margin-top uk-margin-large-bottom uk-flex uk-flex-middle" uk-grid>
         <div class="uk-width-1-2@l uk-width-2-3@m">
-            <h1 class="uk-h1">Welcome to the planning seeds web application</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <h1 class="uk-h1">Welcome to the PlanningSEEDs Web-app</h1>
+            <p> Through the PlanningSEEDs Web-app producers and consumers from 5 different countries can without intermediates:</p>
+            <ul>
+                <li>let them know both at national and itnernational level</li>
+                <li>Interact with consumers in own languages</li>
+                <li>purchaise orders, request for quotes and receive products</li>
+            </ul>
+            <p>If you are a producer or a consumer <a href="{% url 'register' %}">register</a> to become part of the International PlanningSEED alliance!!</p>
             
             {% if not request.user.is_authenticated %} 
                 <a class="uk-button uk-button-primary uk-text-center" href="{% url 'register' %}">Create an account</a>        
@@ -21,7 +28,7 @@
 </div>
 
 <div class="uk-container uk-margin-large-top">
-    <h2 class="">Recent Products</h2>
+    <h2 class="">{% trans "Recent Products" %}</h2>
 
     <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider>
         <div class="uk-slider-items uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s uk-grid products-grid" uk-grid>

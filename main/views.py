@@ -15,6 +15,8 @@ from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from .utils import token_generator
+from django.utils.translation import gettext as _
+
 
 User = get_user_model()
 
@@ -122,17 +124,17 @@ def verify_email(request, uidb64, token):
         messages.error(request, "The verification link is invalid or has expired.")
         return redirect('register')
 
-def about(request):
-    return render(request, 'main/about.html')
-
 def howWorks(request):
-    return render(request, 'main/how_works.html')
+    context = {
+        'hello': _('HELLO')
+    }
+    return render(request, 'main/how_works.html', context)
 
 def privacyPolicy(request):
     return render(request, 'main/privacy_policy.html')
 
 def homepage(request):
-    producers = UserProfile.objects.filter(user_type='producer')[:8]
+    producers = UserProfile.objects.filter(user_type='producer').exclude(user__is_superuser=True)[:8]
     products = Product.objects.order_by('-created')[:5]
 
     context = {
@@ -185,7 +187,7 @@ def filter_products(request):
 
 def filter_producers(request):
     countries = request.GET.getlist('countries')
-    producers = UserProfile.objects.filter(user_type='producer')
+    producers = UserProfile.objects.filter(user_type='producer', user__is_superuser=False)
 
     if countries:
         producers = UserProfile.objects.filter(user_type='producer', country__in=countries)

@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-
+{% load i18n %}
 {% block content %}
 
 <div class="uk-card uk-card-default uk-padding uk-width-2xlarge">
@@ -12,13 +12,13 @@
         <div class="uk-width-2-3">
             {% if request.user.is_authenticated and request.user.userprofile == productObj.producer %}
             <div>
-                <a class="uk-link" href="{% url 'update-product' productObj.id %}"><span uk-icon="icon:pencil; ratio:0.8"></span> Edit</a>
-                <a class="uk-link" href="{% url 'delete-product' productObj.id %}"><span uk-icon="icon:trash; ratio:0.8"></span> Delete</a>
+                <a class="uk-link" href="{% url 'update-product' productObj.id %}"><span uk-icon="icon:pencil; ratio:0.8"></span> {% trans "Edit" %}</a>
+                <a class="uk-link" href="{% url 'delete-product' productObj.id %}"><span uk-icon="icon:trash; ratio:0.8"></span> {% trans "Delete" %}</a>
             </div>
             {% endif %}
             <h3 class="uk-margin-small-top uk-margin-small-bottom">{{productObj.name}}</h3>
             {% if productObj.quantity > 0 %}
-            <p class="uk-margin-small-top uk-margin-small-bottom">Available Quantinty: {{productObj.quantity}}</p>
+            <p class="uk-margin-small-top uk-margin-small-bottom">{% trans "Available Quantinty:" %} {{productObj.quantity}}</p>
             {% endif %}
             <p class="uk-margin-small-top uk-margin-small-bottom"><a href="{% url 'user-profile' productObj.producer.id %}">{{productObj.producer.first_name}} {% if productObj.producer.last_name %}{{productObj.producer.last_name}} {% endif %}</a></p>
 
@@ -27,11 +27,11 @@
             {% endif %}
         </div>
     </div>
-    <h3 class="uk-margin-top-large uk-margin-small-bottom">Description</h3>
+    <h3 class="uk-margin-top-large uk-margin-small-bottom">{% trans "Description" %}</h3>
     <p>{{productObj.description}}</p>
 
     {% if productObj.category %}
-        <h3 class="uk-margin-top uk-margin-small-bottom">Details</h3>
+        <h3 class="uk-margin-top uk-margin-small-bottom">{% trans "Details" %}</h3>
         {% for category in productObj.category.all %}
             <span class="category-span">#{{category}}</span><br>
         {% endfor %}
@@ -43,20 +43,20 @@
 
 {% if request.user.userprofile.user_type == 'customer' %}
 <div class="uk-margin-large-top">
-    <a class="uk-button uk-button-primary" href="{% url 'request-offer' productObj.id %}">Request an offer</a>
+    <a class="uk-button uk-button-primary" href="{% url 'request-offer' productObj.id %}">{% trans "Request an offer" %}</a>
 </div>
 {% endif %}
 
 <!-- For owner -->
 {% if request.user.is_authenticated and request.user.userprofile == productObj.producer and requestsTo %}
-<h3>Requests</h3>
+<h3>{% trans "Requests" %}</h3>
 <table class="uk-table">
     <thead>
         <tr>
-            <th>Date</th>
-            <th>Customer</th>
-            <th>Quantity</th>
-            <th>Status</th>
+            <th>{% trans "Date" %}</th>
+            <th>{% trans "Customer" %}</th>
+            <th>{% trans "Quantity" %}</th>
+            <th>{% trans "Status" %}</th>
             
         </tr>
     </thead>
@@ -75,16 +75,16 @@
 {% endif %}
 
 {% if request.user.userprofile == productObj.producer and offers %}
-<h3>Offers</h3>
+<h3>{% trans "Offers" %}</h3>
 <table class="uk-table">
     <thead>
         <tr>
-            <th>Date</th>
-            <th>Customer</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total Price</th>
-            <th>Status</th>
+            <th>{% trans "Date" %}</th>
+            <th>{% trans "Customer" %}</th>
+            <th>{% trans "Quantity" %}</th>
+            <th>{% trans "Unit Price" %}</th>
+            <th>{% trans "Total Price" %}</th>
+            <th>{% trans "Status" %}</th>
         </tr>
     </thead>
     <tbody>  
@@ -104,13 +104,13 @@
 
 <!-- For customer -->
 {% if requestsFrom %}
-<h3>My Requests</h3>
+<h3>{% trans "My Requests" %}</h3>
 <table class="uk-table">
     <thead>
         <tr>
-            <th>Date</th>
-            <th>Quantity</th>
-            <th>Status</th>
+            <th>{% trans "Date" %}</th>
+            <th>{% trans "Quantity" %}</th>
+            <th>{% trans "Status" %}</th>
             
         </tr>
     </thead>

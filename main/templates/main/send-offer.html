@@ -1,11 +1,11 @@
 {% extends 'main.html' %}
-
+{% load i18n %}
 {% block content %}
-<h1>Send Offer for "{{ for_request.product.name }}" for {{for_request.quantity}} pieces to {{for_request.user}}</h1>
+<h1>{% trans "Send Offer for" %} "{{ for_request.product.name }}" {% trans "for" %} {{for_request.quantity}} {% trans "pieces to" %} {{for_request.user}}</h1>
   <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="uk-button uk-button-primary" type="submit">Send Offer</button>
+    <button class="uk-button uk-button-primary" type="submit">{% trans "Send Offer" %}</button>
   </form>
 
 

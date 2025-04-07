@@ -4,7 +4,9 @@ import uuid
 import datetime
 from django_countries.fields import CountryField
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy as _lazy
+from django.db.models.signals import post_save, pre_delete
+from django.dispatch import receiver
+# from django.utils.translation import gettext_lazy as _lazy
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -14,13 +16,12 @@ class UserProfile(models.Model):
         ('producer', 'Producer'),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    username = models.CharField(max_length=200, blank=True, null=True)
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='Customer')
     id = models.UUIDField(default=uuid.uuid1, unique=True, primary_key=True, editable=False)
     created = models.DateTimeField(default=datetime.datetime.now)
     first_name = models.CharField(max_length=50, blank=False, null=True)
     last_name = models.CharField(max_length=50, blank=False, null=True)
-    username = models.CharField(max_length=50, unique=True)
+    username = models.CharField(max_length=50, unique=True, blank=True, null=True)
     password = models.CharField(max_length=100, null=True, blank=False)  # Ensure to handle passwords securely
     email = models.EmailField(unique=True, blank=False, null=True)
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True, default="/images/default_userimg.png")
@@ -30,7 +31,7 @@ class UserProfile(models.Model):
     country = CountryField(blank_label='Select country', null=True, blank=False)
 
     def __str__(self):
-        return str(self.username)
+        return str(self.username) if self.username else str(self.id)
     
     class Meta:
         ordering = ['created']
@@ -89,7 +90,7 @@ class Request(models.Model):
     
 
     def __str__(self):
-        return self.id
+        return str(self.id)
     
     class Meta:
         ordering = ['created']
@@ -114,7 +115,7 @@ class Offer(models.Model):
     id = models.UUIDField(default=uuid.uuid1, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
     
     class Meta:
         ordering = ['created']
@@ -133,7 +134,7 @@ class Invoice(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Sent')
 
     def __str__(self):
-        return self.id
+        return str(self.id)
     
     class Meta:
         ordering = ['created']
@@ -148,3 +149,21 @@ class Categories(models.Model):
     
     class Meta:
         ordering = ['name']
+
+# @receiver(pre_delete, sender=User)
+# def delete_user_profile(sender, instance, **kwargs):
+#     try:
+#         if hasattr(instance, 'userprofile'):
+#             instance.userprofile.delete()
+#     except UserProfile.DoesNotExist:
+#         pass
+
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         UserProfile.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     if hasattr(instance, 'userprofile'):
+#         instance.userprofile.save()
