@@ -7,17 +7,17 @@
 
     <div class="uk-grid uk-margin-top uk-margin-large-bottom uk-flex uk-flex-middle" uk-grid>
         <div class="uk-width-1-2@l uk-width-2-3@m">
-            <h1 class="uk-h1">Welcome to the PlanningSEEDs Web-app</h1>
-            <p> Through the PlanningSEEDs Web-app producers and consumers from 5 different countries can without intermediates:</p>
+            <h1 class="uk-h1">{% trans "Welcome to the PlanningSEEDs Web-app" %}</h1>
+            <p> {% trans "Through the PlanningSEEDs Web-app producers and consumers from 5 different countries can without intermediates:" %}</p>
             <ul>
-                <li>let them know both at national and itnernational level</li>
-                <li>Interact with consumers in own languages</li>
-                <li>purchaise orders, request for quotes and receive products</li>
+                <li>{% trans "let them know both at national and international level" %}</li>
+                <li>{% trans "Interact with consumers in own languages" %}</li>
+                <li>{% trans "purchase orders, request for quotes and receive products" %}</li>
             </ul>
-            <p>If you are a producer or a consumer <a href="{% url 'register' %}">register</a> to become part of the International PlanningSEED alliance!!</p>
+            <p>{% trans "If you are a producer or a consumer" %} <a href="{% url 'register' %}">{% trans "register" %}</a> {% trans "to become part of the International PlanningSEED alliance!!" %}</p>
             
             {% if not request.user.is_authenticated %} 
-                <a class="uk-button uk-button-primary uk-text-center" href="{% url 'register' %}">Create an account</a>        
+                <a class="uk-button uk-button-primary uk-text-center" href="{% url 'register' %}">{% trans "Create an account" %}</a>        
             {% endif %}
         </div>
         <div class="uk-width-1-2@l uk-width-1-3@m">

@@ -26,7 +26,7 @@ class ProductForm(ModelForm):
         
         # Customize specific fields
         self.fields['description'].widget.attrs.update({'rows': 4, 'style': 'height: 100px;'})
-        self.fields['category'].widget.attrs.update({'size': 5, 'style': 'height: auto;'})
+        self.fields['category'].widget.attrs.update({'size': 5, 'style': 'height: 160px; overflow-y: scroll;'})
         self.fields['image'].widget.attrs.update({'class': 'img-input'})
         
 

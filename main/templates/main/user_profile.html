@@ -35,7 +35,11 @@
         </div>
     </div>
 </div>
-
+{% if is_owner %}
+<div class="uk-margin-large-top">
+    <a class="uk-button uk-button-primary" href="{% url 'create-product' %}">Add new product</a>
+</div>
+{% endif %}
 
 {% if products %}
 <h2>{% trans "Recent Products" %}</h2>
@@ -68,8 +72,9 @@
         {% endfor %}
     </div>
 
-    <a class="uk-position-center-left-out uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="previous"></a>
-    <a class="uk-position-center-right-out uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="next"></a>
+    <a class="uk-position-center-left-out uk-position-small" href uk-slidenav-previous uk-slider-item="previous"></a>
+    <a class="uk-position-center-right-out uk-position-small" href uk-slidenav-next uk-slider-item="next"></a>
+    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin uk-margin-large-top"></ul>
 </div>
 
 {% endif %}
