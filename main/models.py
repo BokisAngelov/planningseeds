@@ -4,8 +4,6 @@ import uuid
 import datetime
 from django_countries.fields import CountryField
 from django.utils.translation import gettext as _
-from django.db.models.signals import post_save, pre_delete
-from django.dispatch import receiver
 # from django.utils.translation import gettext_lazy as _lazy
 # Create your models here.
 
@@ -149,21 +147,3 @@ class Categories(models.Model):
     
     class Meta:
         ordering = ['name']
-
-# @receiver(pre_delete, sender=User)
-# def delete_user_profile(sender, instance, **kwargs):
-#     try:
-#         if hasattr(instance, 'userprofile'):
-#             instance.userprofile.delete()
-#     except UserProfile.DoesNotExist:
-#         pass
-
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         UserProfile.objects.create(user=instance)
-
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     if hasattr(instance, 'userprofile'):
-#         instance.userprofile.save()

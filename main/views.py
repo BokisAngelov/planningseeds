@@ -16,7 +16,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from .utils import token_generator
 from django.utils.translation import gettext as _
+import logging
 
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -33,7 +35,7 @@ def send_email_invoice(request, offer):
         return True
     
     except Exception as e:
-        print(f"Error sending email: {str(e)}")
+        logger.error(f"Error sending email: {str(e)}")
         messages.error(request, f"Error sending email. Please try again later.")
 
         return False
@@ -52,7 +54,7 @@ def send_email_accepted_offer(request, offer):
         return True
     
     except Exception as e:
-        print(f"Error sending email: {str(e)}")
+        logger.error(f"Error sending email: {str(e)}")
         messages.error(request, f"Error sending email. Please try again later.")
 
         return False
@@ -71,7 +73,7 @@ def send_email_for_offer(request, offer):
         return True
     
     except Exception as e:
-        print(f"Error sending email: {str(e)}")
+        logger.error(f"Error sending email: {str(e)}")
         messages.error(request, f"Error sending email. Please try again later.")
 
         return False
@@ -84,13 +86,13 @@ def send_email_for_request(request, request_offer):
             'request': request,
             'request_offer': request_offer
         })
-        print(request_offer.product.producer.user.email)
+
         send_mail(subject, message, settings.EMAIL_HOST_USER, [request_offer.product.producer.user.email])
 
         return True
 
     except Exception as e:
-        print(f"Error sending email: {str(e)}")
+        logger.error(f"Error sending email: {str(e)}")
         messages.error(request, f"Error sending email. Please try again later.")
 
         return False
@@ -534,12 +536,6 @@ def userProfile(request, pk):
             requestsTo = Request.objects.filter(product__producer=user, status=status)
         else:
             requestsTo = Request.objects.filter(product__producer=user)
-
-
-        # Add logging to see what requests are being fetched
-        # print(f"AJAX request status: {status}")
-        # print(f"Filtered requests count: {requestsTo.count()}")
-
             
         return render(request, 'main/requests_table.html', {'requests': requestsTo})
     
@@ -606,7 +602,7 @@ def acceptOffer(request, offer_id):
 def sendInvoice(request, offer_id):
     
     offer = get_object_or_404(Offer, id=offer_id)
-    print(request.POST)
+    
     if request.user.userprofile != offer.producer:
         return HttpResponse('Unauthorized', status=403)
     
