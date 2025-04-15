@@ -35,7 +35,7 @@
         </div>
     </div>
 </div>
-{% if is_owner %}
+{% if is_owner and user.user_type == 'producer' %}
 <div class="uk-margin-large-top">
     <a class="uk-button uk-button-primary" href="{% url 'create-product' %}">Add new product</a>
 </div>
