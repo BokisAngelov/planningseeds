@@ -44,8 +44,10 @@ def analytics(request):
                 'producers': producers,
                 'customers': customers,
                 'products': products,
+                'requests': requests,
+                'offers': offers
             }
-            return render(request, 'main/analytics.html')
+            return render(request, 'main/analytics.html', context)
         # else:
         #     return redirect('homepage')
     else:
