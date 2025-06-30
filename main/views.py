@@ -22,6 +22,36 @@ logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
+def custom_404_view(request, exception):
+    return render(request, "main/404.html", status=404)
+
+def analytics(request):
+
+    if request.user.is_authenticated:
+        # if request.user.userprofile.user_type == 'admin':
+            # get all users
+            producers = UserProfile.objects.filter(user_type='producer')
+            customers = UserProfile.objects.filter(user_type='customer')
+
+            # get all products
+            products = Product.objects.all()
+            # get all requests
+            requests = Request.objects.all()
+            # get all offers
+            offers = Offer.objects.all()
+
+            context = {
+                'producers': producers,
+                'customers': customers,
+                'products': products,
+            }
+            return render(request, 'main/analytics.html')
+        # else:
+        #     return redirect('homepage')
+    else:
+        return redirect('login')
+
+
 def send_email_invoice(request, offer):
     try:
         subject = f"Planning Seeds - Invoice for {offer.request.product.name}"

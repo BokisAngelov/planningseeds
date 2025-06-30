@@ -130,7 +130,6 @@ LANGUAGES = [
     ('fr', 'French'),
     ('el', 'Greek'),
     ('ro', 'Romanian'),
-    ('es', 'Spanish'),
 ]
 # Path for translation files
 LOCALE_PATHS = [

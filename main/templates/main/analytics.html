@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% load i18n %}
+{% block content %}
+
+<h1>{% trans 'Analytics' %}</h1>
+
+<h2>{% trans 'Producers' %}</h2>
+<p>{{ producers.count }}</p>
+{% for producer in producers %}
+    <p>{{ producer.user.username }}</p>
+{% endfor %}
+
+<h2>{% trans 'Customers' %}</h2>
+<p>{{ customers.count }}</p>
+{% for customer in customers %}
+    <p>{{ customer.user.username }}</p>
+{% endfor %}
+
+<h2>{% trans 'Products' %}</h2>
+<p>{{ products.count }}</p>
+{% for product in products %}
+    <p>{{ product.name }}</p>
+{% endfor %}
+
+<h2>{% trans 'Requests' %}</h2>
+<p>{{ requests.count }}</p>
+{% for request in requests %}
+    <p>{{ request.user.username }}</p>
+{% endfor %}
+
+<h2>{% trans 'Offers' %}</h2>
+<p>{{ offers.count }}</p>
+{% for offer in offers %}
+    <p>{{ offer.user.username }}</p>
+{% endfor %}
+
+{% endblock %}

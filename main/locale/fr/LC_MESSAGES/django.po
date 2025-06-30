@@ -1,0 +1,562 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-30 09:18+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: .\main\models.py:39
+msgid "Name"
+msgstr "Nom"
+
+#: .\main\templates\main\analytics.html:5
+msgid "Analytics"
+msgstr "Analytique"
+
+#: .\main\templates\main\analytics.html:7
+msgid "Producers"
+msgstr "Producteurs"
+
+#: .\main\templates\main\analytics.html:13
+msgid "Customers"
+msgstr "Clients"
+
+#: .\main\templates\main\analytics.html:19
+#: .\main\templates\main\product_list.html:4
+msgid "Products"
+msgstr "Produits"
+
+#: .\main\templates\main\analytics.html:25
+#: .\main\templates\main\product.html:52
+msgid "Requests"
+msgstr "Demandes"
+
+#: .\main\templates\main\analytics.html:31
+#: .\main\templates\main\product.html:78
+msgid "Offers"
+msgstr "Offres"
+
+#: .\main\templates\main\delete_template.html:9
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: .\main\templates\main\delete_template.html:10
+#: .\main\templates\main\edit_product.html:11
+#: .\main\templates\main\edit_profile.html:16
+#: .\main\templates\main\preview-invoice.html:22
+#: .\main\templates\main\send-invoice.html:16
+msgid "Go Back"
+msgstr "Retour"
+
+#: .\main\templates\main\edit_product.html:6
+msgid "Update Product"
+msgstr "Mettre à jour le produit"
+
+#: .\main\templates\main\edit_product.html:10
+#: .\main\templates\main\edit_profile.html:15
+msgid "Save Changes"
+msgstr "Sauvegarder les modifications"
+
+#: .\main\templates\main\edit_profile.html:6
+msgid "Edit my profile"
+msgstr "Modifier mon profil"
+
+#: .\main\templates\main\home.html:10
+msgid "Welcome to the PlanningSEEDs Web-app"
+msgstr "Bienvenue sur l'application Web PlanningSEEDs"
+
+#: .\main\templates\main\home.html:11
+msgid ""
+"Through the PlanningSEEDs Web-app producers and consumers from 5 different "
+"countries can without intermediates:"
+msgstr ""
+"Grâce à l'application Web PlanningSEEDs, les producteurs et les consommateurs de 5 pays différents peuvent, sans intermédiaires :"
+
+#: .\main\templates\main\home.html:13
+msgid "let them know both at national and international level"
+msgstr "les faire connaître au niveau national et international"
+
+#: .\main\templates\main\home.html:14
+msgid "Interact with consumers in own languages"
+msgstr "Interagir avec les consommateurs dans leurs propres langues"
+
+#: .\main\templates\main\home.html:15
+msgid "purchase orders, request for quotes and receive products"
+msgstr "passer des commandes, demander des devis et recevoir des produits"
+
+#: .\main\templates\main\home.html:17
+msgid "If you are a producer or a consumer"
+msgstr "Si vous êtes un producteur ou un consommateur"
+
+#: .\main\templates\main\home.html:17
+msgid "register"
+msgstr "s'inscrire"
+
+#: .\main\templates\main\home.html:17
+msgid "to become part of the International PlanningSEED alliance!!"
+msgstr "pour faire partie de l'alliance internationale PlanningSEED !!"
+
+#: .\main\templates\main\home.html:20 .\main\templates\main\how_works.html:25
+msgid "Create an account"
+msgstr "Créer un compte"
+
+#: .\main\templates\main\home.html:31
+#: .\main\templates\main\user_profile.html:45
+msgid "Recent Products"
+msgstr "Produits récents"
+
+#: .\main\templates\main\how_works.html:7
+msgid "How it works"
+msgstr "Comment ça marche"
+
+#: .\main\templates\main\how_works.html:18
+msgid "Registration"
+msgstr "Inscription"
+
+#: .\main\templates\main\how_works.html:20
+msgid ""
+"Create a new account or log in to an existing one. Choose between Customer "
+"or Producer."
+msgstr ""
+"Créez un nouveau compte ou connectez-vous à un compte existant. Choisissez entre Client ou Producteur."
+
+#: .\main\templates\main\how_works.html:43
+#: .\main\templates\main\product.html:57 .\main\templates\main\product.html:83
+#: .\main\templates\main\requests_table.html:7
+#: .\main\templates\main\user_profile.html:115
+#: .\main\templates\main\user_profile.html:142
+msgid "Customer"
+msgstr "Client"
+
+#: .\main\templates\main\how_works.html:45
+msgid "STEP 1: Request Offers"
+msgstr "ÉTAPE 1 : Demander des offres"
+
+#: .\main\templates\main\how_works.html:47
+msgid ""
+"Customers can find and request quotes for specific products. Each request "
+"includes details such as product specifications, quantities etc."
+msgstr ""
+"Les clients peuvent trouver et demander des devis pour des produits spécifiques. Chaque demande comprend des détails tels que les spécifications du produit, les quantités, etc."
+
+#: .\main\templates\main\how_works.html:52
+msgid "STEP 2: Place Orders"
+msgstr "ÉTAPE 2 : Passer des commandes"
+
+#: .\main\templates\main\how_works.html:54
+msgid ""
+"Customers can place orders based on received offers. No financial "
+"transactions will be processed through the platform. A dashboard with the "
+"history of orders will be visible."
+msgstr ""
+"Les clients peuvent passer des commandes basées sur les offres reçues. Aucune transaction financière ne sera traitée via la plateforme. Un tableau de bord avec l'historique des commandes sera visible."
+
+#: .\main\templates\main\how_works.html:58
+msgid "View products"
+msgstr "Voir les produits"
+
+#: .\main\templates\main\how_works.html:76
+#: .\main\templates\main\user_profile.html:188
+#: .\main\templates\main\user_profile.html:210
+#: .\main\templates\main\user_profile.html:250
+#: .\main\templates\main\user_profile.html:282
+msgid "Producer"
+msgstr "Producteur"
+
+#: .\main\templates\main\how_works.html:78
+msgid "STEP 1: Send Offers to Customers"
+msgstr "ÉTAPE 1 : Envoyer des offres aux clients"
+
+#: .\main\templates\main\how_works.html:80
+msgid ""
+"Producers can review requests and send detailed offers to customers. Offers "
+"include pricing, delivery timelines, and other relevant terms. A dashboard "
+"with the history of sent offers will be visible."
+msgstr ""
+"Les producteurs peuvent examiner les demandes et envoyer des offres détaillées aux clients. Les offres comprennent le prix, les délais de livraison et d'autres conditions pertinentes. Un tableau de bord avec l'historique des offres envoyées sera visible."
+
+#: .\main\templates\main\how_works.html:83
+msgid "STEP 2: Use Template to Send Invoices"
+msgstr "ÉTAPE 2 : Utiliser un modèle pour envoyer des factures"
+
+#: .\main\templates\main\how_works.html:85
+msgid "Producers will generate invoices using predefined templates."
+msgstr "Les producteurs généreront des factures à l'aide de modèles prédéfinis."
+
+#: .\main\templates\main\login_register.html:11
+#: .\main\templates\main\login_register.html:30
+#: .\main\templates\main\login_register.html:70
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+#: .\main\templates\main\login_register.html:34
+msgid "Already have an Account?"
+msgstr "Vous avez déjà un compte ?"
+
+#: .\main\templates\main\login_register.html:34
+#: .\main\templates\main\login_register.html:64
+msgid "Log In"
+msgstr "Se connecter"
+
+#: .\main\templates\main\login_register.html:45
+msgid "Login"
+msgstr "Connexion"
+
+#: .\main\templates\main\login_register.html:52
+msgid "Username:"
+msgstr "Nom d'utilisateur :"
+
+#: .\main\templates\main\login_register.html:54
+msgid "Enter your username..."
+msgstr "Entrez votre nom d'utilisateur..."
+
+#: .\main\templates\main\login_register.html:59
+msgid "Password:"
+msgstr "Mot de passe :"
+
+#: .\main\templates\main\login_register.html:65
+msgid "Forgot Password?"
+msgstr "Mot de passe oublié ?"
+
+#: .\main\templates\main\login_register.html:70
+msgid "Donâ€™t have an Account?"
+msgstr "Vous n'avez pas de compte ?"
+
+#: .\main\templates\main\offers_filter_table.html:12
+msgid "Send Invoice"
+msgstr "Envoyer la facture"
+
+#: .\main\templates\main\password_reset_complete.html:5
+msgid "Password Reset Successful"
+msgstr "Réinitialisation du mot de passe réussie"
+
+#: .\main\templates\main\password_reset_complete.html:6
+msgid "Your password has been reset. You can now"
+msgstr "Votre mot de passe a été réinitialisé. Vous pouvez maintenant"
+
+#: .\main\templates\main\password_reset_complete.html:6
+msgid "log in"
+msgstr "vous connecter"
+
+#: .\main\templates\main\password_reset_confirm.html:8
+msgid "Change Password"
+msgstr "Changer le mot de passe"
+
+#: .\main\templates\main\password_reset_done.html:4
+msgid "Password Reset Sent"
+msgstr "Réinitialisation du mot de passe envoyée"
+
+#: .\main\templates\main\password_reset_done.html:5
+msgid "Check your email for the link to reset your password."
+msgstr "Vérifiez votre e-mail pour le lien de réinitialisation de votre mot de passe."
+
+#: .\main\templates\main\password_reset_done.html:6
+msgid "Back to Home"
+msgstr "Retour à l'accueil"
+
+#: .\main\templates\main\password_reset_form.html:4
+msgid "Reset Your Password"
+msgstr "Réinitialisez votre mot de passe"
+
+#: .\main\templates\main\password_reset_form.html:19
+msgid "Send Reset Email"
+msgstr "Envoyer l'e-mail de réinitialisation"
+
+#: .\main\templates\main\preview-invoice.html:5
+msgid "Preview Invoice for"
+msgstr "Aperçu de la facture pour"
+
+#: .\main\templates\main\preview-invoice.html:6
+#: .\main\templates\main\send-invoice.html:6
+msgid "Quantity:"
+msgstr "Quantité :"
+
+#: .\main\templates\main\preview-invoice.html:7
+#: .\main\templates\main\send-invoice.html:7
+msgid "Unit Price:"
+msgstr "Prix unitaire :"
+
+#: .\main\templates\main\preview-invoice.html:8
+#: .\main\templates\main\send-invoice.html:8
+msgid "Total Price:"
+msgstr "Prix total :"
+
+#: .\main\templates\main\preview-invoice.html:9
+#: .\main\templates\main\send-invoice.html:9
+msgid "Delivery Timeline:"
+msgstr "Délai de livraison :"
+
+#: .\main\templates\main\preview-invoice.html:10
+msgid "Edit Offer"
+msgstr "Modifier l'offre"
+
+#: .\main\templates\main\preview-invoice.html:12
+msgid "Invoice Preview:"
+msgstr "Aperçu de la facture :"
+
+#: .\main\templates\main\preview-invoice.html:13
+msgid "Open Invoice in New Tab"
+msgstr "Ouvrir la facture dans un nouvel onglet"
+
+#: .\main\templates\main\preview-invoice.html:14
+#: .\main\templates\main\user_profile.html:153
+msgid "Download Invoice"
+msgstr "Télécharger la facture"
+
+#: .\main\templates\main\preview-invoice.html:20
+#: .\main\templates\main\send-invoice.html:14
+msgid "Confirm and Send Invoice"
+msgstr "Confirmer et envoyer la facture"
+
+#: .\main\templates\main\product.html:15
+#: .\main\templates\main\product_filter_grid.html:16
+#: .\main\templates\main\user_profile.html:63
+msgid "Edit"
+msgstr "Modifier"
+
+#: .\main\templates\main\product.html:16
+#: .\main\templates\main\product_filter_grid.html:18
+#: .\main\templates\main\user_profile.html:66
+msgid "Delete"
+msgstr "Supprimer"
+
+#: .\main\templates\main\product.html:21
+msgid "Available Quantinty:"
+msgstr "Quantité disponible :"
+
+#: .\main\templates\main\product.html:30
+msgid "Description"
+msgstr "Description"
+
+#: .\main\templates\main\product.html:34
+msgid "Details"
+msgstr "Détails"
+
+#: .\main\templates\main\product.html:46
+msgid "Request an offer"
+msgstr "Demander une offre"
+
+#: .\main\templates\main\product.html:56 .\main\templates\main\product.html:82
+#: .\main\templates\main\product.html:111
+#: .\main\templates\main\requests_table.html:5
+#: .\main\templates\main\user_profile.html:113
+#: .\main\templates\main\user_profile.html:139
+#: .\main\templates\main\user_profile.html:186
+#: .\main\templates\main\user_profile.html:208
+#: .\main\templates\main\user_profile.html:248
+#: .\main\templates\main\user_profile.html:281
+msgid "Date"
+msgstr "Date"
+
+#: .\main\templates\main\product.html:58 .\main\templates\main\product.html:84
+#: .\main\templates\main\product.html:112
+#: .\main\templates\main\requests_table.html:8
+#: .\main\templates\main\user_profile.html:117
+#: .\main\templates\main\user_profile.html:189
+#: .\main\templates\main\user_profile.html:212
+#: .\main\templates\main\user_profile.html:252
+msgid "Quantity"
+msgstr "Quantité"
+
+#: .\main\templates\main\product.html:59 .\main\templates\main\product.html:87
+#: .\main\templates\main\product.html:113
+#: .\main\templates\main\requests_table.html:10
+#: .\main\templates\main\user_profile.html:114
+#: .\main\templates\main\user_profile.html:191
+#: .\main\templates\main\user_profile.html:209
+#: .\main\templates\main\user_profile.html:249
+msgid "Status"
+msgstr "Statut"
+
+#: .\main\templates\main\product.html:85
+#: .\main\templates\main\user_profile.html:118
+#: .\main\templates\main\user_profile.html:213
+#: .\main\templates\main\user_profile.html:253
+msgid "Unit Price"
+msgstr "Prix unitaire"
+
+#: .\main\templates\main\product.html:86
+#: .\main\templates\main\user_profile.html:119
+#: .\main\templates\main\user_profile.html:141
+#: .\main\templates\main\user_profile.html:214
+#: .\main\templates\main\user_profile.html:254
+msgid "Total Price"
+msgstr "Prix total"
+
+#: .\main\templates\main\product.html:107
+#: .\main\templates\main\user_profile.html:84
+#: .\main\templates\main\user_profile.html:172
+msgid "My Requests"
+msgstr "Mes demandes"
+
+#: .\main\templates\main\product_filter_grid.html:17
+msgid "View"
+msgstr "Voir"
+
+#: .\main\templates\main\product_filter_grid.html:24
+msgid "No products found"
+msgstr "Aucun produit trouvé"
+
+#: .\main\templates\main\product_form.html:10
+msgid "Add Product"
+msgstr "Ajouter un produit"
+
+#: .\main\templates\main\product_list.html:9
+#: .\main\templates\main\profiles.html:8
+msgid "Reset Filters"
+msgstr "Réinitialiser les filtres"
+
+#: .\main\templates\main\product_list.html:12
+msgid "Categories"
+msgstr "Catégories"
+
+#: .\main\templates\main\product_list.html:28
+#: .\main\templates\main\profiles.html:11
+msgid "Countries"
+msgstr "Pays"
+
+#: .\main\templates\main\profiles_filter_grid.html:21
+msgid "No producers found"
+msgstr "Aucun producteur trouvé"
+
+#: .\main\templates\main\request_offer.html:4
+msgid "Request an Offer for"
+msgstr "Demander une offre pour"
+
+#: .\main\templates\main\request_offer.html:8
+msgid "Send Request"
+msgstr "Envoyer la demande"
+
+#: .\main\templates\main\requests_table.html:6
+#: .\main\templates\main\user_profile.html:116
+#: .\main\templates\main\user_profile.html:140
+#: .\main\templates\main\user_profile.html:187
+#: .\main\templates\main\user_profile.html:211
+#: .\main\templates\main\user_profile.html:251
+#: .\main\templates\main\user_profile.html:283
+msgid "Product"
+msgstr "Produit"
+
+#: .\main\templates\main\requests_table.html:9
+#: .\main\templates\main\user_profile.html:190
+msgid "Notes"
+msgstr "Notes"
+
+#: .\main\templates\main\requests_table.html:11
+#: .\main\templates\main\user_profile.html:120
+msgid "Action"
+msgstr "Action"
+
+#: .\main\templates\main\requests_table.html:24
+msgid "Send offer"
+msgstr "Envoyer l'offre"
+
+#: .\main\templates\main\send-invoice.html:5
+msgid "Prepare Invoice for"
+msgstr "Préparer la facture pour"
+
+#: .\main\templates\main\send-invoice.html:10
+msgid "Additional note:"
+msgstr "Note additionnelle :"
+
+#: .\main\templates\main\send-offer.html:4
+msgid "Send Offer for"
+msgstr "Envoyer l'offre pour"
+
+#: .\main\templates\main\send-offer.html:4
+msgid "for"
+msgstr "pour"
+
+#: .\main\templates\main\send-offer.html:4
+msgid "pieces to"
+msgstr "pièces à"
+
+#: .\main\templates\main\send-offer.html:8
+msgid "Send Offer"
+msgstr "Envoyer l'offre"
+
+#: .\main\templates\main\user_profile.html:8
+msgid "Edit profile"
+msgstr "Modifier le profil"
+
+#: .\main\templates\main\user_profile.html:87
+#: .\main\templates\main\user_profile.html:103
+#: .\main\templates\main\user_profile.html:176
+msgid "All"
+msgstr "Tout"
+
+#: .\main\templates\main\user_profile.html:88
+#: .\main\templates\main\user_profile.html:177
+msgid "Pending"
+msgstr "En attente"
+
+#: .\main\templates\main\user_profile.html:89
+#: .\main\templates\main\user_profile.html:104
+#: .\main\templates\main\user_profile.html:178
+msgid "Accepted"
+msgstr "Acceptées"
+
+#: .\main\templates\main\user_profile.html:90
+#: .\main\templates\main\user_profile.html:179
+msgid "Rejected"
+msgstr "Rejetées"
+
+#: .\main\templates\main\user_profile.html:91
+#: .\main\templates\main\user_profile.html:106
+#: .\main\templates\main\user_profile.html:180
+msgid "In-progress"
+msgstr "En cours"
+
+#: .\main\templates\main\user_profile.html:100
+msgid "My Offers"
+msgstr "Mes offres"
+
+#: .\main\templates\main\user_profile.html:105
+msgid "Declined"
+msgstr "Refusées"
+
+#: .\main\templates\main\user_profile.html:132
+#: .\main\templates\main\user_profile.html:277
+msgid "My Invoices"
+msgstr "Mes factures"
+
+#: .\main\templates\main\user_profile.html:143
+msgid "File"
+msgstr "Fichier"
+
+#: .\main\templates\main\user_profile.html:204
+msgid "Pending Offers"
+msgstr "Offres en attente"
+
+#: .\main\templates\main\user_profile.html:215
+#: .\main\templates\main\user_profile.html:233
+msgid "Accept"
+msgstr "Accepter"
+
+#: .\main\templates\main\user_profile.html:216
+#: .\main\templates\main\user_profile.html:234
+msgid "Reject"
+msgstr "Rejeter"
+
+#: .\main\templates\main\user_profile.html:244
+msgid "Accepted/Rejected Offers"
+msgstr "Offres acceptées/rejetées"
+
+#: .\main\templates\main\user_profile.html:284
+msgid "Invoice"
+msgstr "Facture"
+
+#: .\main\templates\main\user_profile.html:293
+msgid "Download"
+msgstr "Télécharger"
