@@ -29,25 +29,26 @@ def analytics(request):
 
     if request.user.is_authenticated:
         # if request.user.userprofile.user_type == 'admin':
-            # get all users
-            producers = UserProfile.objects.filter(user_type='producer')
-            customers = UserProfile.objects.filter(user_type='customer')
+        
+        # get all users
+        producers = UserProfile.objects.filter(user_type='producer')
+        customers = UserProfile.objects.filter(user_type='customer')
 
-            # get all products
-            products = Product.objects.all()
-            # get all requests
-            requests = Request.objects.all()
-            # get all offers
-            offers = Offer.objects.all()
+        # get all products
+        products = Product.objects.all()
+        # get all requests
+        requests = Request.objects.all()
+        # get all offers
+        offers = Offer.objects.all()
 
-            context = {
-                'producers': producers,
-                'customers': customers,
-                'products': products,
-                'requests': requests,
-                'offers': offers
-            }
-            return render(request, 'main/analytics.html', context)
+        context = {
+            'producers': producers,
+            'customers': customers,
+            'products': products,
+            'requests': requests,
+            'offers': offers
+        }
+        return render(request, 'main/analytics.html', context)
         # else:
         #     return redirect('homepage')
     else:
